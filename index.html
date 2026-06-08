@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Day in 2035 · Decode Your Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070d;--bg2:#0d0e18;--panel:#11131f;--panel2:#161929;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#eef1fb;--mute:#9aa0bd;--faint:#646a87;--crimson:#ff3457;--crimson-d:#c01f3c;--cyan:#34e6f0;--gold:#ffc24b;--green:#54e08b;--purple:#9b8cff;--r:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Sora',sans-serif;min-height:100vh;overflow-x:hidden;position:relative;
+ background-image:radial-gradient(900px 600px at 50% -10%,rgba(255,52,87,.10),transparent 60%),radial-gradient(700px 500px at 90% 110%,rgba(52,230,240,.08),transparent 55%)}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.32;mask-image:radial-gradient(ellipse 80% 70% at 50% 35%,#000 40%,transparent 100%)}
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:30px 20px 60px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--cyan);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:26px;height:1px;background:var(--cyan)}
+h1{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(32px,7vw,54px);line-height:1;margin:13px 0 8px}
+h1 .b{color:var(--cyan)}
+.sub{color:var(--mute);font-size:15px;font-weight:300;max-width:52ch;line-height:1.55}
+.device{max-width:432px;margin:26px auto 0;background:linear-gradient(180deg,#0e0f1b,#08090f);border:1px solid var(--line2);border-radius:32px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.05);min-height:600px;position:relative;display:flex;flex-direction:column}
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);letter-spacing:.06em}
+.statusbar .ic{display:flex;gap:7px;align-items:center}
+.statusbar .bat{width:22px;height:11px;border:1px solid var(--mute);border-radius:3px;position:relative}
+.statusbar .bat::after{content:"";position:absolute;left:1.5px;top:1.5px;bottom:1.5px;width:70%;background:var(--green);border-radius:1px}
+.scrn{flex:1;padding:8px 20px 22px;display:flex;flex-direction:column}
+.field{margin-bottom:15px}
+.flabel{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px}
+input[type=text],select{width:100%;background:#0c0e18;border:1px solid var(--line2);border-radius:10px;padding:12px 14px;color:var(--ink);font-family:'Sora',sans-serif;font-size:14px;outline:none}
+input[type=text]:focus,select:focus{border-color:var(--cyan)}
+select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 18px) 18px,calc(100% - 13px) 18px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.cta{width:100%;margin-top:8px;padding:15px;border:none;border-radius:11px;cursor:pointer;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;color:#fff;background:linear-gradient(100deg,var(--crimson),var(--crimson-d));box-shadow:0 14px 38px -16px rgba(255,52,87,.85);transition:transform .12s}
+.cta:hover{transform:translateY(-2px)}
+.cta.cyan{background:linear-gradient(100deg,#1b9aa3,#0c6f76);box-shadow:0 14px 38px -16px rgba(52,230,240,.6)}
+.boot{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:14px}
+.bootlog{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--cyan);letter-spacing:.1em;min-height:18px}
+.bootname{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:34px;color:var(--ink)}
+.bootrole{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.2em;color:var(--crimson);text-transform:uppercase}
+.bootbar{width:80%;height:4px;background:#1c2030;border-radius:3px;overflow:hidden;margin-top:6px}
+.bootbar i{display:block;height:100%;width:0;background:var(--cyan);border-radius:3px;transition:width .3s linear}
+.lock{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;gap:6px}
+.locktime{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:62px;line-height:1}
+.lockdate{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.22em;color:var(--mute);text-transform:uppercase}
+.lockwho{margin-top:26px;color:var(--mute);font-size:14px;font-weight:300}
+.lockhint{margin-top:40px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.notif{background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:16px;padding:15px 16px;cursor:pointer;animation:drop .5s;transition:transform .12s}
+.notif:hover{transform:scale(1.015);border-color:var(--cyan)}
+@keyframes drop{from{opacity:0;transform:translateY(-16px)}to{opacity:1}}
+.notif .nfrom{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:.08em;margin-bottom:6px}
+.notif .nbody{font-size:14px;line-height:1.45;color:var(--ink)}
+.notif .nopen{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint)}
+.beatwrap{display:flex;flex-direction:column;flex:1;animation:fade .4s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.timerrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.timertrack{flex:1;height:6px;background:#1c2030;border-radius:4px;overflow:hidden}
+.timerfill{height:100%;width:100%;background:var(--cyan);border-radius:4px;transition:width .1s linear}
+.timernum{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--cyan);min-width:30px;text-align:right}
+.btag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stretchbadge{color:var(--gold);border:1px solid rgba(255,194,75,.4);padding:2px 8px;border-radius:20px;font-size:9.5px}
+.scene{font-size:15px;line-height:1.55;color:var(--ink);margin-bottom:18px}
+.scene b{color:var(--cyan);font-weight:500}
+.choice{width:100%;text-align:left;background:#0f1120;border:1px solid var(--line2);border-radius:12px;padding:13px 15px;margin-bottom:10px;color:var(--ink);font-family:'Sora',sans-serif;font-size:13.5px;line-height:1.4;cursor:pointer;transition:.13s}
+.choice:hover{border-color:var(--cyan);background:#131630;transform:translateX(2px)}
+.outcome{animation:fade .4s}
+.ohead{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.opick{font-size:14px;color:var(--ink);font-weight:500;margin-bottom:12px;line-height:1.4}
+.oout{font-size:14px;color:var(--mute);font-weight:300;line-height:1.55;margin-bottom:16px}
+.skillchips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.skillchip{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--cyan);border:1px solid rgba(52,230,240,.4);padding:4px 9px;border-radius:20px}
+.instinct{color:var(--crimson);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;margin:8px 0}
+.hesitate{color:var(--gold);font-size:12.5px;font-style:italic;margin-bottom:10px}
+.deb{animation:fade .5s;text-align:center}
+.debkick{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;color:var(--faint);text-transform:uppercase}
+.debtier{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:26px;color:var(--cyan);margin:8px 0 4px;line-height:1.1}
+.debsub{font-size:13.5px;color:var(--mute);font-weight:300;line-height:1.5;margin-bottom:18px}
+.debbox{background:#0c0e18;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;text-align:left}
+.debbox .l{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;margin-bottom:10px}
+.debskill{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:7px;color:var(--ink)}
+.debskill .ct{font-family:'JetBrains Mono',monospace;color:var(--faint);font-size:12px}
+.debnote{font-size:13.5px;color:var(--mute);font-weight:300;line-height:1.55}
+.debnote b{color:var(--gold);font-weight:500}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2 class="sr">A Day in 2035: live a day as your future self, making timed decisions that use your Power Skills.</h2>
+  <div class="kicker">Decode your future · station 02</div>
+  <h1>A DAY IN <span class="b">2035</span></h1>
+  <p class="sub">You decoded who you are. Now live a day as that person, ten years from now, in the world your strengths point to. The clock is real. Every call uses a Power Skill.</p>
+  <div class="device">
+    <div class="statusbar"><span id="sbtime">06:12</span><span class="ic" id="sbworld">SYNC</span><span class="ic">5G <span class="bat"></span></span></div>
+    <div class="scrn" id="scrn"></div>
+  </div>
+</div>
+<script>
+var TYPES={Spark:'Communicating with Impact',Anchor:'Collaborative Relationships',Analyst:'Analytical Thinking & PS',Architect:'Goal-Driven & Proactive',Builder:'Tenacity',Original:'Innovative & Curious'};
+var WORLDS={Entrepreneurship:{role:'Founder'},'AI & Robotics':{role:'AI Systems Lead'},'Healthcare':{role:'Health-Tech Lead'},'Green Economy':{role:'Climate Solutions Lead'},'Social Change':{role:'Impact Director'}};
+var GROWTH={voc:'Word power',vr:'Reasoning with words',rc:'Making sense of what you read',mem:'Holding lots of detail',nvr:'Spotting patterns & space',comp:'Fast number work'};
+var NUM=['comp','nvr','mem'],WORD=['voc','vr','rc'];
+
+var WORLDDATA={
+'Entrepreneurship':[
+ {time:15,clock:'06:12',from:'CO-FOUNDER · NOW',notif:'Big news. A national retail chain wants to meet TODAY about stocking us. Can you pull a pitch together by 2pm?? \uD83D\uDE2C',tag:'Decision 01 · first call of the day',
+  scene:'You\u2019re barely awake. This is the break you\u2019ve been chasing for two years, but it\u2019s in eight hours. <b>What do you fire back?</b>',
+  choices:[{t:'\u201cOn it. I\u2019ll have a draft by 10, we review at 11.\u201d',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Your co-founder exhales. \u201cThis is why we started this together.\u201d The day has a plan before 6:15am.'},
+   {t:'\u201cLet\u2019s ask them to push a week so we do it properly.\u201d',skills:['Critical Thinking'],score:2,out:'Smart instinct, but they reply: \u201cThey\u2019re deciding this week. It\u2019s today or not at all.\u201d The clock starts anyway.'},
+   {t:'\u201cidk if we\u2019re even ready for this\u201d',skills:['Tenacity'],score:1,out:'\u201cWe\u2019re readier than you think. I need you in this.\u201d You\u2019ve burned ten minutes on doubt. Coffee. Go.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DASHBOARD',notif:'Production capacity: 500 units/week. Retailer hinted they\u2019d want about 800.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+  scene:'You can make 500 a week. They want 800. The gap is real and they\u2019ll ask. <b>How do you play the numbers in the pitch?</b>',
+  choices:[{t:'Offer 500 now, with a costed plan to reach 800 in three months.',skills:['Analytical Thinking & PS','Critical Thinking'],score:3,out:'Honest and backed by a plan. Buyers trust a founder who knows their own limits and has a roadmap past them.'},
+   {t:'Promise 800 from day one to win the deal. Figure it out after.',skills:['Goal-Driven & Proactive'],score:1,out:'Impressive in the room, but you\u2019ve promised what you can\u2019t deliver. That bill comes due in month two.'},
+   {t:'Keep it vague. Don\u2019t mention the gap.',skills:[],score:1,out:'They notice the dodge. Vague numbers read as \u201cdoesn\u2019t know their business.\u201d Trust dips before you\u2019ve begun.'}],timeout:2},
+ {time:18,clock:'11:05',from:'CO-FOUNDER · IN PERSON',notif:'\u201cWhy is the deck STILL not done? We don\u2019t have time for this.\u201d',tag:'Decision 03 · your co-founder snaps',
+  scene:'They\u2019re stressed and it just landed on you, unfairly. The meeting\u2019s in two hours. <b>What do you do?</b>',
+  choices:[{t:'Pause. \u201cHey, you good? This is a lot. Let\u2019s split it.\u201d',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'They drop their shoulders. \u201cSorry. I\u2019m scared we\u2019ll blow it.\u201d You split the deck and you\u2019re a team again, faster for it.'},
+   {t:'Snap back. You\u2019re stressed too. Keep working.',skills:[],score:1,out:'Now you\u2019re both rattled walking into the biggest meeting of your lives. The tension shows in the room.'},
+   {t:'Say nothing, take over the whole deck yourself.',skills:['Tenacity'],score:2,out:'It gets done, but you\u2019re carrying it alone and your co-founder feels sidelined. You can\u2019t scale a company solo.'}],timeout:1},
+ {time:16,clock:'13:30',from:'THE MEETING',notif:'Buyer: \u201cWe already stock three brands like yours. Why you?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'Everyone\u2019s looking at you. This is the whole pitch in one question. <b>Your move?</b>',
+  choices:[{t:'Tell the origin story plus the one thing only you do differently.',skills:['Communicating with Impact','Innovative & Curious','Creative Agility'],score:3,out:'You make it personal and specific. The buyer leans in. You\u2019re no longer brand number four, you\u2019re a story they want to back.'},
+   {t:'Undercut the others on price.',skills:['Goal-Driven & Proactive'],score:1,out:'They nod, then ask the next cheapest brand to match you. You\u2019ve started a race to the bottom you can\u2019t win.'},
+   {t:'List all your product features, one by one.',skills:[],score:1,out:'Accurate, thorough, and forgettable. Features tell; stories sell. The room\u2019s attention drifts.'}],timeout:2},
+ {time:12,clock:'13:58',from:'BUYER · DECIDING NOW',notif:'\u201cWe\u2019re interested. Trial order, but we need your answer on terms in the next two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'Big volume, but they pay you <b>90 days late</b>, three months of covering costs yourself. They\u2019re standing up to leave. <b>Final call.</b>',
+  choices:[{t:'Negotiate: yes to volume, but 60-day terms plus a deposit.',skills:['Goal-Driven & Proactive','Critical Thinking','Financial Literacy'],score:3,out:'They pause. \u201c60 days, 20% deposit. Deal.\u201d You protected your cash flow AND landed the order. That\u2019s a founder.'},
+   {t:'Accept exactly as offered. Lock it in.',skills:['Goal-Driven & Proactive'],score:2,out:'You\u2019ve got the deal, and three months of paying out before a cent comes in. Survivable, but it\u2019ll be tight.'},
+   {t:'Walk away. Too risky for now.',skills:['Critical Thinking'],score:2,out:'Disciplined. You live to fight another day, but you\u2019ll wonder for weeks what that deal could\u2019ve become.'}],timeout:1}
+],
+'AI & Robotics':[
+ {time:15,clock:'06:12',from:'SYSTEM ALERT · NOW',notif:'The recommendation model we shipped is giving biased results to users in rural areas. Flagged overnight. People are noticing. \u26A0',tag:'Decision 01 · first call of the day',
+  scene:'A model you built is treating some users worse than others, right now, live. <b>What\u2019s your first move?</b>',
+  choices:[{t:'Pull it to safe-mode now. I lead the fix, updates every hour.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'You stop the harm first and communicate clearly. The team trusts a lead who acts before the headlines do.'},
+   {t:'Wait for more data before touching a live system.',skills:['Critical Thinking'],score:2,out:'Careful, but every hour it runs, real people get worse results. Caution has a cost here too.'},
+   {t:'It\u2019s probably a small edge case. Leave it.',skills:[],score:1,out:'By 9am it\u2019s a thread with 4,000 reposts. \u201cSmall edge case\u201d was a thousand real users.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Rural users are 8% of the training data but 30% of real users. That\u2019s the source of the bias.',tag:'Decision 02 · trace the cause',stretchFor:NUM,
+  scene:'The maths is clear: the model never learned enough about most of its actual users. <b>How do you fix it?</b>',
+  choices:[{t:'Rebalance the data and retest before redeploying, even if it takes two more days.',skills:['Analytical Thinking & PS','Critical Thinking'],score:3,out:'You fix the cause, not the symptom. Slower today, trustworthy for years. That\u2019s real engineering.'},
+   {t:'Ship a quick patch now, fix the data later.',skills:['Goal-Driven & Proactive'],score:1,out:'The patch hides the bias without removing it. \u201cLater\u201d has a way of never coming.'},
+   {t:'Adjust the metric so it stops flagging.',skills:[],score:1,out:'You didn\u2019t fix the bias, you blinded yourself to it. The users still get hurt, quietly now.'}],timeout:2},
+ {time:18,clock:'11:05',from:'JUNIOR ENGINEER · DM',notif:'\u201cThe bug\u2026 it came from a shortcut I took to hit the deadline. I\u2019m so sorry.\u201d',tag:'Decision 03 · someone owns up',
+  scene:'A junior on your team just admitted the mistake was theirs, and they\u2019re terrified. <b>How do you respond?</b>',
+  choices:[{t:'\u201cThank you for owning it. Now let\u2019s fix it together, no blame.\u201d',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'You just taught your whole team that honesty is safe here. Next time, someone speaks up sooner.'},
+   {t:'Report them to management for the error.',skills:[],score:1,out:'You made an example of them. Now nobody on the team will ever admit a mistake again. Bugs go underground.'},
+   {t:'Fix it quietly yourself, say nothing.',skills:['Tenacity'],score:2,out:'Kind, but they learn nothing and you do everything. That doesn\u2019t scale, and neither do they.'}],timeout:2},
+ {time:16,clock:'13:30',from:'PRESS BRIEFING',notif:'Journalist, live: \u201cCan we even trust AI that you build?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'Cameras on you. This one answer becomes the headline. <b>Your move?</b>',
+  choices:[{t:'Be honest: what went wrong, what you fixed, how you\u2019ll prevent it.',skills:['Communicating with Impact','Innovative & Curious'],score:3,out:'Owning it plainly earns more trust than any promise. \u201cThis is how they handle mistakes\u201d becomes the story.'},
+   {t:'Get defensive: \u201cThe system is fine, this is overblown.\u201d',skills:[],score:1,out:'Defensiveness reads as guilt. The clip of you dismissing real harm runs all evening.'},
+   {t:'Bury it in technical jargon nobody follows.',skills:[],score:1,out:'You dodged the question and everyone could tell. Confusion is not the same as confidence.'}],timeout:2},
+ {time:12,clock:'13:58',from:'LEADERSHIP · DECIDING NOW',notif:'\u201cWe want to launch the bigger model next week to beat the competitor. Your call in two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'It hasn\u2019t passed safety testing. Leadership wants to win the race. They\u2019re waiting. <b>Final call.</b>',
+  choices:[{t:'Push back: \u201cWe launch when it\u2019s tested, not before. My name\u2019s on that.\u201d',skills:['Goal-Driven & Proactive','Critical Thinking','Tenacity'],score:3,out:'You held the line on safety under real pressure. That\u2019s the difference between a coder and a leader.'},
+   {t:'Go along with the rushed launch to win the race.',skills:['Goal-Driven & Proactive'],score:2,out:'You beat the competitor by four days, and inherit whatever the untested model does to real users.'},
+   {t:'Stay quiet. Not your call.',skills:[],score:1,out:'You had the knowledge and the room, and said nothing. Silence is also a decision.'}],timeout:1}
+],
+'Healthcare':[
+ {time:15,clock:'06:12',from:'SYSTEM ALERT · NOW',notif:'Our clinic app crashed overnight. 12 clinics can\u2019t pull patient records this morning. Queues are forming.',tag:'Decision 01 · first call of the day',
+  scene:'Across the Western Cape, nurses are stuck and patients are waiting. <b>What\u2019s your first move?</b>',
+  choices:[{t:'Switch clinics to the backup system now. I coordinate the fix.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Patients keep moving while you fix the root cause. In health tech, downtime is measured in people, not minutes.'},
+   {t:'Wait for the dev team to wake up and assess.',skills:['Critical Thinking'],score:2,out:'An hour of waiting is an hour of full waiting rooms and frustrated nurses. The delay lands on patients.'},
+   {t:'Tell clinics to manage on paper. Not urgent.',skills:[],score:1,out:'Paper means lost histories and missed allergies. \u201cNot urgent\u201d is easy to say from a desk.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'The crash hit because one server runs all 12 clinics, to save cost. Two backup servers would cost R40k a year.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+  scene:'Cheap today nearly broke the whole network. <b>What do you do with the budget?</b>',
+  choices:[{t:'Make the case: cost of two servers vs the cost of clinics going dark.',skills:['Analytical Thinking & PS','Critical Thinking','Financial Literacy'],score:3,out:'You weigh R40k against a day of 12 clinics offline. Framed like that, it isn\u2019t even close. Approved.'},
+   {t:'Keep one server to stay cheap. Risk it again.',skills:[],score:1,out:'You saved R40k and gambled patient care on a single point of failure. Next crash, same chaos.'},
+   {t:'Add servers immediately without checking the budget.',skills:['Goal-Driven & Proactive'],score:2,out:'Right instinct, no plan. You over-spend elsewhere and finance pushes back hard next quarter.'}],timeout:2},
+ {time:18,clock:'11:05',from:'CLINIC NURSE · MESSAGE',notif:'\u201cYour app makes my job harder, not easier. Nobody asked us what we actually need.\u201d',tag:'Decision 03 · the frontline pushes back',
+  scene:'The person using your tool every day is telling you it\u2019s failing her. <b>How do you respond?</b>',
+  choices:[{t:'\u201cYou\u2019re right. Let me shadow your shift and redesign around how you really work.\u201d',skills:['Collaborative Relationships','Communicating with Impact','Innovative & Curious'],score:3,out:'You go to the frontline instead of defending the desk. The best health tech is built next to the people using it.'},
+   {t:'\u201cThe app\u2019s fine, you just need more training.\u201d',skills:[],score:1,out:'You told an expert she\u2019s the problem. She stops giving feedback, and the app stops improving.'},
+   {t:'\u201cI hear you, I\u2019ll look into it,\u201d then get pulled into other work.',skills:['Communicating with Impact'],score:2,out:'A soft promise with no follow-up. She\u2019s heard that before. Trust erodes one ignored message at a time.'}],timeout:2},
+ {time:16,clock:'13:30',from:'COMMUNITY MEETING',notif:'A parent asks: \u201cWhy should we trust an app with my child\u2019s health data?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'A hall full of worried parents is waiting on your answer. <b>Your move?</b>',
+  choices:[{t:'Explain in plain language how data is protected and who can see it, then invite questions.',skills:['Communicating with Impact','Collaborative Relationships'],score:3,out:'Clear, honest, and open to challenge. Parents don\u2019t need perfect, they need someone who\u2019ll look them in the eye.'},
+   {t:'Reassure vaguely: \u201cIt\u2019s totally safe, don\u2019t worry.\u201d',skills:[],score:1,out:'\u201cDon\u2019t worry\u201d makes people worry more. Vague comfort sounds like you\u2019re hiding something.'},
+   {t:'Read the privacy policy out, word for word.',skills:[],score:1,out:'Technically complete, humanly useless. Eyes glaze. Trust isn\u2019t built in legalese.'}],timeout:1},
+ {time:12,clock:'13:58',from:'FUNDER · DECIDING NOW',notif:'\u201cWe\u2019ll fund a fast expansion, if you let us sell anonymised patient data to advertisers. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'The money would reach more clinics. The condition crosses a line. They\u2019re waiting. <b>Final call.</b>',
+  choices:[{t:'Decline that condition. Propose expanding slower, without selling data.',skills:['Critical Thinking','Tenacity','Communicating with Impact'],score:3,out:'You protected the trust your whole system runs on. Grow slower, stay worth trusting. That\u2019s the deal that lasts.'},
+   {t:'Take the money. It\u2019s anonymised anyway.',skills:['Goal-Driven & Proactive'],score:1,out:'\u201cAnonymised\u201d data gets re-identified all the time. You traded patient trust for speed, and that doesn\u2019t come back.'},
+   {t:'Walk away from the funder entirely.',skills:['Critical Thinking'],score:2,out:'Principled, but now you\u2019ve no money to expand at all. Sometimes there was a third option you didn\u2019t reach for.'}],timeout:1}
+],
+'Green Economy':[
+ {time:15,clock:'06:12',from:'SITE MANAGER · NOW',notif:'Storm knocked out a third of the solar array overnight. The township we power has no electricity. People are calling.',tag:'Decision 01 · first call of the day',
+  scene:'Thousands of people just lost power, and they\u2019re counting on you. <b>What\u2019s your first move?</b>',
+  choices:[{t:'Reroute power from the grid battery now. I\u2019m heading to site.',skills:['Goal-Driven & Proactive','Communicating with Impact','Tenacity'],score:3,out:'Lights come back within the hour while you head to the real fix. People remember who showed up in the dark.'},
+   {t:'Wait for daylight to assess the panels properly.',skills:['Critical Thinking'],score:2,out:'Sensible for the panels, hard on the families sitting in the dark for hours longer than they need to.'},
+   {t:'Log it for the weekly report.',skills:[],score:1,out:'A whole community without power is not a line item. By the time the report\u2019s read, trust is gone.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Repairing all panels: R600k. Or R250k on storm-proof mounts that stop this happening again.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+  scene:'You can fix what broke, or fix why it broke. <b>How do you spend?</b>',
+  choices:[{t:'Invest in storm-proof mounts and phase repairs. Fix the cause.',skills:['Analytical Thinking & PS','Critical Thinking','Innovative & Curious'],score:3,out:'Cheaper and smarter: you spend less and the next storm does nothing. That\u2019s systems thinking, not just repair.'},
+   {t:'Just repair what broke. Cheapest right now.',skills:[],score:2,out:'Back online fast, but the next big storm knocks it all down again. You\u2019ll be having this exact morning soon.'},
+   {t:'Spend on both at once, no plan.',skills:['Goal-Driven & Proactive'],score:1,out:'You blow the budget in one go. When the next problem hits, there\u2019s nothing left to fix it with.'}],timeout:1},
+ {time:18,clock:'11:05',from:'COMMUNITY MEMBER',notif:'\u201cYour project takes our land and our jobs and gives us nothing back.\u201d',tag:'Decision 03 · the community pushes back',
+  scene:'Someone you\u2019re meant to be helping feels used by you. <b>How do you respond?</b>',
+  choices:[{t:'Sit down, listen properly, and build a local hiring and training plan together.',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'You turn an opponent into a partner. A green project that isn\u2019t community-owned doesn\u2019t last in the community.'},
+   {t:'\u201cWe give you clean power. Isn\u2019t that enough?\u201d',skills:[],score:1,out:'You just told people their concerns don\u2019t count. Resentment grows, and so does resistance to the project.'},
+   {t:'Offer a quick once-off donation and move on.',skills:['Goal-Driven & Proactive'],score:2,out:'Money without a relationship buys quiet for a week. The real issue, being left out, stays.'}],timeout:2},
+ {time:16,clock:'13:30',from:'CITY FUNDING PITCH',notif:'Official: \u201cWhy fund you over a coal plant that creates more jobs right now?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'A hard, fair question with money on the line. <b>Your move?</b>',
+  choices:[{t:'Tell the story of the township you power, plus one clear number on long-term jobs and health.',skills:['Communicating with Impact','Critical Thinking','Innovative & Curious'],score:3,out:'A real face plus a real figure beats an abstract argument. The official can picture who they\u2019d be funding.'},
+   {t:'Attack coal angrily.',skills:[],score:1,out:'Heat without light. You come across as an activist, not a leader they can hand a budget to.'},
+   {t:'Recite the technical specs of your panels.',skills:[],score:1,out:'Specs don\u2019t move people. The official needed a reason to care, and you gave them a datasheet.'}],timeout:2},
+ {time:12,clock:'13:58',from:'COMPANY · DECIDING NOW',notif:'\u201cWe\u2019ll fund your expansion, if you help make our image look green in your marketing. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'They pollute heavily. They want your good name to cover it. The money is real. <b>Final call.</b>',
+  choices:[{t:'Refuse the greenwashing. Propose a genuine clean-up partnership or none.',skills:['Critical Thinking','Tenacity'],score:3,out:'You kept your credibility, the one thing a green project can\u2019t buy back once it\u2019s sold. Hard call, right call.'},
+   {t:'Take the deal. You need the money to grow.',skills:['Goal-Driven & Proactive'],score:1,out:'You scale fast, on a lie. When it comes out, and it will, your whole mission looks like a front.'},
+   {t:'Walk away.',skills:['Critical Thinking'],score:2,out:'Clean hands, empty pockets. Principled, but you didn\u2019t test whether there was a version that worked.'}],timeout:1}
+],
+'Social Change':[
+ {time:15,clock:'06:12',from:'COMMUNITY PARTNER · NOW',notif:'The youth centre we fund is being shut by the landlord. They have until end of day. 200 kids use it.',tag:'Decision 01 · first call of the day',
+  scene:'Two hundred kids could lose their safe place after school, today. <b>What\u2019s your first move?</b>',
+  choices:[{t:'\u201cI\u2019m on it. Calling the landlord and rallying support now.\u201d',skills:['Goal-Driven & Proactive','Communicating with Impact','Tenacity'],score:3,out:'You move while there\u2019s still a day to move in. In a crisis, speed and a calm voice are half the battle.'},
+   {t:'\u201cLet\u2019s schedule a meeting next week to discuss options.\u201d',skills:[],score:1,out:'\u201cNext week\u201d the doors are already locked. Some problems don\u2019t wait for your calendar.'},
+   {t:'Start looking for another building. Let this one go.',skills:['Critical Thinking'],score:2,out:'Pragmatic, but you gave up the fight before trying. The kids lose the place they know while you search.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR BUDGET SHEET',notif:'Keeping the centre open costs R30k a month. Your budget can cover it for 4 months, not forever.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+  scene:'You can buy time, but not unlimited time. <b>How do you handle the money?</b>',
+  choices:[{t:'Cover 4 months now, and use them to build long-term funding.',skills:['Analytical Thinking & PS','Critical Thinking','Goal-Driven & Proactive'],score:3,out:'You buy runway and a plan to use it. That\u2019s how short-term rescue becomes a long-term save.'},
+   {t:'Commit forever and hope the money turns up.',skills:[],score:1,out:'You promised what you can\u2019t fund. In month five there\u2019s no money and a broken promise to 200 kids.'},
+   {t:'Don\u2019t commit. Too risky.',skills:['Critical Thinking'],score:2,out:'Safe for the budget, hard on the kids. Four months could have changed everything, and you let it pass.'}],timeout:2},
+ {time:18,clock:'11:05',from:'TWO STAFF MEMBERS',notif:'Two of your team are clashing badly, and it\u2019s splitting everyone during the crisis.',tag:'Decision 03 · the team fractures',
+  scene:'You need everyone rowing together today, and they\u2019re pulling apart. <b>What do you do?</b>',
+  choices:[{t:'Bring them together, hear both sides, and refocus everyone on the kids.',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'You named the real goal and made space for both. A team that feels heard pulls harder than one that\u2019s ordered.'},
+   {t:'Pick a side to settle it fast.',skills:[],score:1,out:'Quick, and now one half of your team feels betrayed in the middle of a crisis. The split gets worse.'},
+   {t:'Ignore it. Deal with it after the crisis.',skills:['Tenacity'],score:2,out:'You pushed through, but the tension leaked into everything. \u201cLater\u201d problems have a way of growing.'}],timeout:2},
+ {time:16,clock:'13:30',from:'LIVE TV INTERVIEW',notif:'Reporter, live: \u201cAren\u2019t charities like yours just a band-aid that changes nothing?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'A cynical question, on air, in front of everyone. <b>Your move?</b>',
+  choices:[{t:'Name the hard truth, then show real change with one story and one number.',skills:['Communicating with Impact','Critical Thinking','Innovative & Curious'],score:3,out:'You didn\u2019t get defensive, you got specific. One kid\u2019s name and one real figure do more than any slogan.'},
+   {t:'Get defensive and list everything you do.',skills:[],score:1,out:'A wall of activity with no proof of impact. You sounded busy, not effective.'},
+   {t:'Dodge the question.',skills:[],score:1,out:'The dodge becomes the clip. People assume you ducked because you had no answer.'}],timeout:1},
+ {time:12,clock:'13:58',from:'DONOR · DECIDING NOW',notif:'\u201cI\u2019ll save the centre, if it\u2019s renamed after me and I control the decisions. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'The money saves the kids. The conditions hand away the community\u2019s voice. They\u2019re waiting. <b>Final call.</b>',
+  choices:[{t:'Accept the funding, but negotiate to keep community control.',skills:['Critical Thinking','Communicating with Impact','Tenacity'],score:3,out:'You found the line: their generosity, the community\u2019s voice. Saved the centre without selling its soul.'},
+   {t:'Accept every condition. The kids need it.',skills:['Goal-Driven & Proactive'],score:2,out:'The doors stay open, but it\u2019s no longer the community\u2019s centre. You won the building and lost the mission.'},
+   {t:'Refuse on principle and find another way.',skills:['Critical Thinking'],score:2,out:'You protected the mission, and gambled the building. Bold, but the kids are the ones holding that risk.'}],timeout:1}
+]
+};
+
+var P={name:'Slade',type:'Spark',world:'Entrepreneurship',growth:'vr'};
+var STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};
+var scrn=document.getElementById('scrn');var timerId=null;
+function WD(){return WORLDDATA[P.world];}
+function setStatus(t,w){document.getElementById('sbtime').textContent=t;if(w)document.getElementById('sbworld').textContent=w;}
+
+profileScreen();
+
+function profileScreen(){
+ setStatus('06:12','SYNC');
+ var typeOpts=Object.keys(TYPES).map(function(k){return '<option value="'+k+'"'+(k===P.type?' selected':'')+'>The '+k+'</option>';}).join('');
+ var worldOpts=Object.keys(WORLDS).map(function(k){return '<option value="'+k+'"'+(k===P.world?' selected':'')+'>'+k+'</option>';}).join('');
+ var growthOpts=Object.keys(GROWTH).map(function(k){return '<option value="'+k+'"'+(k===P.growth?' selected':'')+'>'+GROWTH[k]+'</option>';}).join('');
+ scrn.innerHTML='<div style="padding-top:6px"><div class="btag" style="color:var(--cyan)">\u25C8 sync your decoder results</div>'+
+  '<p style="font-size:13px;color:var(--mute);font-weight:300;line-height:1.5;margin-bottom:18px">Bring the three results from your Decoder summary. They become the version of you that wakes up in 2035.</p>'+
+  '<div class="field"><div class="flabel">Your name</div><input type="text" id="f-name" value="'+P.name+'" maxlength="18"></div>'+
+  '<div class="field"><div class="flabel">Your future-fit type</div><select id="f-type">'+typeOpts+'</select></div>'+
+  '<div class="field"><div class="flabel">Your strongest world</div><select id="f-world">'+worldOpts+'</select></div>'+
+  '<div class="field"><div class="flabel">Your growth zone</div><select id="f-growth">'+growthOpts+'</select></div>'+
+  '<button class="cta" id="start">\u23FB BOOT MY 2035 SELF</button></div>';
+ document.getElementById('start').onclick=function(){
+  P.name=(document.getElementById('f-name').value||'You').trim().slice(0,18);
+  P.type=document.getElementById('f-type').value;P.world=document.getElementById('f-world').value;P.growth=document.getElementById('f-growth').value;
+  bootScreen();
+ };
+}
+function bootScreen(){
+ var role=WORLDS[P.world].role;
+ scrn.innerHTML='<div class="boot"><div class="bootlog" id="blog">booting future self\u2026</div><div class="bootbar"><i id="bbar"></i></div></div>';
+ var logs=['booting future self\u2026','loading profile: THE '+P.type.toUpperCase(),'world \u2192 '+P.world.toUpperCase(),'year \u2192 2035','rendering '+P.name.toUpperCase()+'\u2026'];
+ var li=0,bar=document.getElementById('bbar'),blog=document.getElementById('blog');
+ var iv=setInterval(function(){li++;if(li<logs.length){blog.textContent=logs[li];bar.style.width=(li/logs.length*100)+'%';}
+  else{clearInterval(iv);bar.style.width='100%';
+   scrn.innerHTML='<div class="boot"><div class="bootlog">\u25CF ONLINE</div><div class="bootname" id="bn">'+P.name+'</div><div class="bootrole">24 \u00B7 '+role+' \u00B7 2035</div></div>';
+   scramble(document.getElementById('bn'),P.name);setTimeout(lockScreen,1500);}
+ },520);
+}
+function lockScreen(){
+ setStatus('06:12',P.world.split(' ')[0].toUpperCase());
+ scrn.innerHTML='<div class="lock" id="lock"><div class="lockdate">Mon 14 Oct 2035</div><div class="locktime">06:12</div><div class="lockwho">'+P.name+' \u00B7 '+WORLDS[P.world].role+'</div><div class="lockhint">\u2191 tap to wake</div></div>';
+ document.getElementById('lock').onclick=function(){STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};beat();};
+}
+function beat(){
+ var b=WD()[STATE.i];setStatus(b.clock);
+ var isStretch=b.stretchFor&&b.stretchFor.indexOf(P.growth)>=0;
+ scrn.innerHTML='<div class="notif" id="notif"><div class="nfrom"><span>'+b.from+'</span><span>\uD83D\uDD14</span></div><div class="nbody">'+b.notif+'</div><div class="nopen">\u2192 tap to open</div></div>';
+ document.getElementById('notif').onclick=function(){openBeat(b,isStretch);};
+}
+function openBeat(b,isStretch){
+ var ch='';b.choices.forEach(function(c,idx){ch+='<button class="choice" data-i="'+idx+'">'+c.t+'</button>';});
+ scrn.innerHTML='<div class="beatwrap"><div class="timerrow"><div class="timertrack"><div class="timerfill" id="tf"></div></div><div class="timernum" id="tn">'+b.time+'</div></div>'+
+  '<div class="btag">'+b.tag+(isStretch?'<span class="stretchbadge">\u25B3 YOUR STRETCH</span>':'')+'</div><div class="scene">'+b.scene+'</div>'+ch+'</div>';
+ var rem=b.time*10,tot=rem,tf=document.getElementById('tf'),tn=document.getElementById('tn');
+ timerId=setInterval(function(){rem--;tf.style.width=(rem/tot*100)+'%';tn.textContent=Math.ceil(rem/10);
+  if(rem/tot<.34){tf.style.background='var(--crimson)';tn.style.color='var(--crimson)';}
+  if(rem<=0){clearInterval(timerId);resolve(b,b.timeout,true,isStretch);}},100);
+ document.querySelectorAll('.choice').forEach(function(btn){btn.onclick=function(){clearInterval(timerId);resolve(b,+btn.dataset.i,false,isStretch);};});
+}
+function resolve(b,idx,timedOut,isStretch){
+ var c=b.choices[idx];STATE.score+=c.score;if(isStretch)STATE.maxBeat=c.score;
+ var sig=TYPES[P.type],instinct=c.skills.indexOf(sig)>=0;if(instinct)STATE.score+=1;
+ c.skills.forEach(function(s){STATE.skills[s]=(STATE.skills[s]||0)+1;});
+ STATE.log.push({beat:STATE.i,score:c.score,stretch:isStretch});
+ var chips='';c.skills.forEach(function(s){chips+='<span class="skillchip">'+s+'</span>';});
+ var last=STATE.i===WD().length-1;
+ scrn.innerHTML='<div class="outcome">'+
+  (timedOut?'<div class="hesitate">\u23F1 You hesitated, and not deciding made the decision for you.</div>':'')+
+  '<div class="ohead">You chose</div><div class="opick">'+c.t+'</div><div class="oout">'+c.out+'</div>'+
+  (chips?'<div class="skillchips">'+chips+'</div>':'<div class="oout" style="color:var(--faint)">No Power Skill fired on that one.</div>')+
+  (instinct?'<div class="instinct">\u26A1 INSTINCT: that\u2019s pure '+P.type+'. Bonus earned.</div>':'')+
+  '<button class="cta '+(last?'':'cyan')+'" id="cont">'+(last?'SEE HOW THE DAY WENT \u25B8':'CONTINUE \u25B8')+'</button></div>';
+ document.getElementById('cont').onclick=function(){if(last){debrief();}else{STATE.i++;beat();}};
+}
+function debrief(){
+ setStatus('18:00','HOME');
+ var max=WD().length*3,pct=STATE.score/max,tier,sub;
+ if(pct>=.85){tier='You ran a sharp day.';sub='You made the hard calls fast and kept your head when it counted. That is the job.';}
+ else if(pct>=.62){tier='Solid day under pressure.';sub='You handled most of it well. A couple of moments you\u2019ll replay, but that is how you learn.';}
+ else if(pct>=.4){tier='A real day: wins and lessons.';sub='Some calls landed, some cost you. Every one taught you something about how you work.';}
+ else{tier='Rough day.';sub='It got away from you a bit. But everyone has these days. The ones who make it show up again tomorrow.';}
+ var sk=Object.entries(STATE.skills).sort(function(a,b){return b[1]-a[1];});
+ var skHtml=sk.length?sk.slice(0,4).map(function(x){return '<div class="debskill"><span>'+x[0]+'</span><span class="ct">x'+x[1]+'</span></div>';}).join(''):'<div class="debnote">You didn\u2019t lean on your Power Skills much today. Worth a replay.</div>';
+ var gnote;
+ if(STATE.maxBeat>=3)gnote='You walked straight into your stretch zone, <b>'+GROWTH[P.growth]+'</b>, and nailed it. That is the muscle growing in real time.';
+ else if(STATE.maxBeat===2)gnote='Your stretch moment, <b>'+GROWTH[P.growth]+'</b>, was a solid, careful play. Keep training it.';
+ else gnote='Your stretch zone, <b>'+GROWTH[P.growth]+'</b>, showed today. That is not failure, that is the exact muscle to train. You already knew where it was.';
+ scrn.innerHTML='<div class="deb"><div class="debkick">18:00 \u00B7 day complete</div><div class="debtier">'+tier+'</div><div class="debsub">'+sub+'</div>'+
+  '<div class="debbox"><div class="l">\u26A1 power skills you fired today</div>'+skHtml+'</div>'+
+  '<div class="debbox"><div class="l">\u25B3 your stretch moment</div><div class="debnote">'+gnote+'</div></div>'+
+  '<div class="debbox"><div class="l">\u25C7 the you that showed up</div><div class="debnote">A 24-year-old <b style="color:var(--cyan)">'+P.type+'</b>, running a real day in <b style="color:var(--cyan)">'+P.world+'</b>. Ten years from a Grade 9 classroom, closer than it feels.</div></div>'+
+  '<div class="debbox" style="border-color:rgba(255,52,87,.3)"><div class="l" style="color:var(--crimson)">\u27F6 next station</div><div class="debnote">You\u2019ve lived a day in 2035. In <b style="color:var(--crimson)">The Pitch</b>, you stop reacting and start building: your own idea, in your own world.</div></div>'+
+  '<button class="cta cyan" id="again" style="margin-top:6px">\u21BB LIVE ANOTHER DAY</button></div>';
+ document.getElementById('again').onclick=profileScreen;
+}
+function scramble(el,final){var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&\u25AE',f=0;var id=setInterval(function(){el.textContent=final.split('').map(function(c,i){return c===' '?' ':(i<f?c:ch[Math.floor(Math.random()*ch.length)]);}).join('');f++;if(f>final.length){clearInterval(id);el.textContent=final;}},40);}
+</script>
+</body>
+</html>
