@@ -14,12 +14,12 @@ html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:'Sora',sans-serif;min-height:100vh;overflow-x:hidden;position:relative;
  background-image:radial-gradient(900px 600px at 50% -10%,rgba(255,52,87,.10),transparent 60%),radial-gradient(700px 500px at 90% 110%,rgba(52,230,240,.08),transparent 55%)}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.32;mask-image:radial-gradient(ellipse 80% 70% at 50% 35%,#000 40%,transparent 100%)}
-.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:30px 20px 60px;text-align:center}
-.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--cyan);text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:30px 20px 60px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.34em;color:var(--cyan);text-transform:uppercase;display:flex;align-items:center;gap:10px}
 .kicker::before{content:"";width:26px;height:1px;background:var(--cyan)}
 h1{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(32px,7vw,54px);line-height:1;margin:13px 0 8px}
 h1 .b{color:var(--cyan)}
-.sub{color:var(--mute);font-size:15px;font-weight:300;max-width:52ch;line-height:1.55;margin:0 auto}
+.sub{color:var(--mute);font-size:15px;font-weight:300;max-width:52ch;line-height:1.55}
 .device{max-width:432px;margin:26px auto 0;background:linear-gradient(180deg,#0e0f1b,#08090f);border:1px solid var(--line2);border-radius:32px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.05);min-height:600px;position:relative;display:flex;flex-direction:column}
 .statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute);letter-spacing:.06em}
 .statusbar .ic{display:flex;gap:7px;align-items:center}
@@ -97,10 +97,11 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
   </div>
 </div>
 <script>
-var TYPES={Spark:'Communicating with Impact',Anchor:'Collaborative Relationships',Analyst:'Analytical Thinking & PS',Architect:'Goal-Driven & Proactive',Builder:'Tenacity',Original:'Innovative & Curious'};
+var TYPES={Spark:'Communicating with Impact',Anchor:'Collaborative Relationships',Analyst:'Analytical Thinking',Architect:'Goal-Driven & Proactive',Builder:'Tenacity',Original:'Innovative & Curious'};
 var WORLDS={Entrepreneurship:{role:'Founder'},'AI & Robotics':{role:'AI Systems Lead'},'Healthcare':{role:'Health-Tech Lead'},'Green Economy':{role:'Climate Solutions Lead'},'Social Change':{role:'Impact Director'}};
-var GROWTH={voc:'Word power',vr:'Reasoning with words',rc:'Making sense of what you read',mem:'Holding lots of detail',nvr:'Spotting patterns & space',comp:'Fast number work'};
-var NUM=['comp','nvr','mem'],WORD=['voc','vr','rc'];
+var GROWTHSKILLS=['Financial Literacy','Analytical Thinking','Communicating with Impact','Critical Thinking'];
+var CAMP={'Financial Literacy':'NUM','Analytical Thinking':'NUM','Communicating with Impact':'WORD','Critical Thinking':'WORD'};
+var NUM='NUM',WORD='WORD';
 
 var WORLDDATA={
 'Entrepreneurship':[
@@ -111,7 +112,7 @@ var WORLDDATA={
    {t:'\u201cidk if we\u2019re even ready for this\u201d',skills:['Tenacity'],score:1,out:'\u201cWe\u2019re readier than you think. I need you in this.\u201d You\u2019ve burned ten minutes on doubt. Coffee. Go.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR DASHBOARD',notif:'Production capacity: 500 units/week. Retailer hinted they\u2019d want about 800.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'You can make 500 a week. They want 800. The gap is real and they\u2019ll ask. <b>How do you play the numbers in the pitch?</b>',
-  choices:[{t:'Offer 500 now, with a costed plan to reach 800 in three months.',skills:['Analytical Thinking & PS','Critical Thinking'],score:3,out:'Honest and backed by a plan. Buyers trust a founder who knows their own limits and has a roadmap past them.'},
+  choices:[{t:'Offer 500 now, with a costed plan to reach 800 in three months.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'Honest and backed by a plan. Buyers trust a founder who knows their own limits and has a roadmap past them.'},
    {t:'Promise 800 from day one to win the deal. Figure it out after.',skills:['Goal-Driven & Proactive'],score:1,out:'Impressive in the room, but you\u2019ve promised what you can\u2019t deliver. That bill comes due in month two.'},
    {t:'Keep it vague. Don\u2019t mention the gap.',skills:[],score:1,out:'They notice the dodge. Vague numbers read as \u201cdoesn\u2019t know their business.\u201d Trust dips before you\u2019ve begun.'}],timeout:2},
  {time:18,clock:'11:05',from:'CO-FOUNDER · IN PERSON',notif:'\u201cWhy is the deck STILL not done? We don\u2019t have time for this.\u201d',tag:'Decision 03 · your co-founder snaps',
@@ -138,7 +139,7 @@ var WORLDDATA={
    {t:'It\u2019s probably a small edge case. Leave it.',skills:[],score:1,out:'By 9am it\u2019s a thread with 4,000 reposts. \u201cSmall edge case\u201d was a thousand real users.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Rural users are 8% of the training data but 30% of real users. That\u2019s the source of the bias.',tag:'Decision 02 · trace the cause',stretchFor:NUM,
   scene:'The maths is clear: the model never learned enough about most of its actual users. <b>How do you fix it?</b>',
-  choices:[{t:'Rebalance the data and retest before redeploying, even if it takes two more days.',skills:['Analytical Thinking & PS','Critical Thinking'],score:3,out:'You fix the cause, not the symptom. Slower today, trustworthy for years. That\u2019s real engineering.'},
+  choices:[{t:'Rebalance the data and retest before redeploying, even if it takes two more days.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'You fix the cause, not the symptom. Slower today, trustworthy for years. That\u2019s real engineering.'},
    {t:'Ship a quick patch now, fix the data later.',skills:['Goal-Driven & Proactive'],score:1,out:'The patch hides the bias without removing it. \u201cLater\u201d has a way of never coming.'},
    {t:'Adjust the metric so it stops flagging.',skills:[],score:1,out:'You didn\u2019t fix the bias, you blinded yourself to it. The users still get hurt, quietly now.'}],timeout:2},
  {time:18,clock:'11:05',from:'JUNIOR ENGINEER · DM',notif:'\u201cThe bug\u2026 it came from a shortcut I took to hit the deadline. I\u2019m so sorry.\u201d',tag:'Decision 03 · someone owns up',
@@ -165,7 +166,7 @@ var WORLDDATA={
    {t:'Tell clinics to manage on paper. Not urgent.',skills:[],score:1,out:'Paper means lost histories and missed allergies. \u201cNot urgent\u201d is easy to say from a desk.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'The crash hit because one server runs all 12 clinics, to save cost. Two backup servers would cost R40k a year.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'Cheap today nearly broke the whole network. <b>What do you do with the budget?</b>',
-  choices:[{t:'Make the case: cost of two servers vs the cost of clinics going dark.',skills:['Analytical Thinking & PS','Critical Thinking','Financial Literacy'],score:3,out:'You weigh R40k against a day of 12 clinics offline. Framed like that, it isn\u2019t even close. Approved.'},
+  choices:[{t:'Make the case: cost of two servers vs the cost of clinics going dark.',skills:['Analytical Thinking','Critical Thinking','Financial Literacy'],score:3,out:'You weigh R40k against a day of 12 clinics offline. Framed like that, it isn\u2019t even close. Approved.'},
    {t:'Keep one server to stay cheap. Risk it again.',skills:[],score:1,out:'You saved R40k and gambled patient care on a single point of failure. Next crash, same chaos.'},
    {t:'Add servers immediately without checking the budget.',skills:['Goal-Driven & Proactive'],score:2,out:'Right instinct, no plan. You over-spend elsewhere and finance pushes back hard next quarter.'}],timeout:2},
  {time:18,clock:'11:05',from:'CLINIC NURSE · MESSAGE',notif:'\u201cYour app makes my job harder, not easier. Nobody asked us what we actually need.\u201d',tag:'Decision 03 · the frontline pushes back',
@@ -192,7 +193,7 @@ var WORLDDATA={
    {t:'Log it for the weekly report.',skills:[],score:1,out:'A whole community without power is not a line item. By the time the report\u2019s read, trust is gone.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Repairing all panels: R600k. Or R250k on storm-proof mounts that stop this happening again.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'You can fix what broke, or fix why it broke. <b>How do you spend?</b>',
-  choices:[{t:'Invest in storm-proof mounts and phase repairs. Fix the cause.',skills:['Analytical Thinking & PS','Critical Thinking','Innovative & Curious'],score:3,out:'Cheaper and smarter: you spend less and the next storm does nothing. That\u2019s systems thinking, not just repair.'},
+  choices:[{t:'Invest in storm-proof mounts and phase repairs. Fix the cause.',skills:['Analytical Thinking','Critical Thinking','Innovative & Curious'],score:3,out:'Cheaper and smarter: you spend less and the next storm does nothing. That\u2019s systems thinking, not just repair.'},
    {t:'Just repair what broke. Cheapest right now.',skills:[],score:2,out:'Back online fast, but the next big storm knocks it all down again. You\u2019ll be having this exact morning soon.'},
    {t:'Spend on both at once, no plan.',skills:['Goal-Driven & Proactive'],score:1,out:'You blow the budget in one go. When the next problem hits, there\u2019s nothing left to fix it with.'}],timeout:1},
  {time:18,clock:'11:05',from:'COMMUNITY MEMBER',notif:'\u201cYour project takes our land and our jobs and gives us nothing back.\u201d',tag:'Decision 03 · the community pushes back',
@@ -219,7 +220,7 @@ var WORLDDATA={
    {t:'Start looking for another building. Let this one go.',skills:['Critical Thinking'],score:2,out:'Pragmatic, but you gave up the fight before trying. The kids lose the place they know while you search.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR BUDGET SHEET',notif:'Keeping the centre open costs R30k a month. Your budget can cover it for 4 months, not forever.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'You can buy time, but not unlimited time. <b>How do you handle the money?</b>',
-  choices:[{t:'Cover 4 months now, and use them to build long-term funding.',skills:['Analytical Thinking & PS','Critical Thinking','Goal-Driven & Proactive'],score:3,out:'You buy runway and a plan to use it. That\u2019s how short-term rescue becomes a long-term save.'},
+  choices:[{t:'Cover 4 months now, and use them to build long-term funding.',skills:['Analytical Thinking','Critical Thinking','Goal-Driven & Proactive'],score:3,out:'You buy runway and a plan to use it. That\u2019s how short-term rescue becomes a long-term save.'},
    {t:'Commit forever and hope the money turns up.',skills:[],score:1,out:'You promised what you can\u2019t fund. In month five there\u2019s no money and a broken promise to 200 kids.'},
    {t:'Don\u2019t commit. Too risky.',skills:['Critical Thinking'],score:2,out:'Safe for the budget, hard on the kids. Four months could have changed everything, and you let it pass.'}],timeout:2},
  {time:18,clock:'11:05',from:'TWO STAFF MEMBERS',notif:'Two of your team are clashing badly, and it\u2019s splitting everyone during the crisis.',tag:'Decision 03 · the team fractures',
@@ -240,7 +241,7 @@ var WORLDDATA={
 ]
 };
 
-var P={name:'',type:'Spark',world:'Entrepreneurship',growth:'vr'};
+var P={name:'',type:'',world:'',growth:''};
 var STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};
 var scrn=document.getElementById('scrn');var timerId=null;
 function WD(){return WORLDDATA[P.world];}
@@ -250,19 +251,24 @@ profileScreen();
 
 function profileScreen(){
  setStatus('06:12','SYNC');
- var typeOpts=Object.keys(TYPES).map(function(k){return '<option value="'+k+'"'+(k===P.type?' selected':'')+'>The '+k+'</option>';}).join('');
- var worldOpts=Object.keys(WORLDS).map(function(k){return '<option value="'+k+'"'+(k===P.world?' selected':'')+'>'+k+'</option>';}).join('');
- var growthOpts=Object.keys(GROWTH).map(function(k){return '<option value="'+k+'"'+(k===P.growth?' selected':'')+'>'+GROWTH[k]+'</option>';}).join('');
- scrn.innerHTML='<div style="padding-top:6px"><div class="btag" style="color:var(--cyan)">\u25C8 sync your decoder results</div>'+
-  '<p style="font-size:13px;color:var(--mute);font-weight:300;line-height:1.5;margin-bottom:18px">Bring the three results from your Decoder summary. They become the version of you that wakes up in 2035.</p>'+
-  '<div class="field"><div class="flabel">Your name</div><input type="text" id="f-name" value="'+P.name+'" maxlength="18"></div>'+
+ P.type='';P.world='';P.growth='';P.name='';
+ var typeOpts='<option value="" disabled selected>Choose your type</option>'+Object.keys(TYPES).map(function(k){return '<option value="'+k+'">The '+k+'</option>';}).join('');
+ var worldOpts='<option value="" disabled selected>Choose your world</option>'+Object.keys(WORLDS).map(function(k){return '<option value="'+k+'">'+k+'</option>';}).join('');
+ var growthOpts='<option value="" disabled selected>Choose the skill you are growing</option>'+GROWTHSKILLS.map(function(k){return '<option value="'+k+'">'+k+'</option>';}).join('');
+ scrn.innerHTML='<div style="padding-top:6px"><div class="btag" style="color:var(--cyan)">\u25C8 enter your decoder results</div>'+
+  '<p style="font-size:13px;color:var(--mute);font-weight:300;line-height:1.5;margin-bottom:18px">Straight from your Decoder summary: your type, your strongest world, and the Power Skill you are growing. They become the version of you that wakes up in 2035.</p>'+
+  '<div class="field"><div class="flabel">Your name</div><input type="text" id="f-name" maxlength="18" placeholder="Your name"></div>'+
   '<div class="field"><div class="flabel">Your future-fit type</div><select id="f-type">'+typeOpts+'</select></div>'+
   '<div class="field"><div class="flabel">Your strongest world</div><select id="f-world">'+worldOpts+'</select></div>'+
-  '<div class="field"><div class="flabel">Your growth zone</div><select id="f-growth">'+growthOpts+'</select></div>'+
-  '<button class="cta" id="start">\u23FB BOOT MY 2035 SELF</button></div>';
+  '<div class="field"><div class="flabel">The Power Skill you are growing</div><select id="f-growth">'+growthOpts+'</select></div>'+
+  '<button class="cta" id="start" disabled>\u23FB BOOT MY 2035 SELF</button></div>';
+ var tSel=document.getElementById('f-type'),wSel=document.getElementById('f-world'),gSel=document.getElementById('f-growth');
+ function v(){document.getElementById('start').disabled=!(tSel.value&&wSel.value&&gSel.value);}
+ tSel.onchange=v;wSel.onchange=v;gSel.onchange=v;
  document.getElementById('start').onclick=function(){
+  if(!(tSel.value&&wSel.value&&gSel.value))return;
   P.name=(document.getElementById('f-name').value||'You').trim().slice(0,18);
-  P.type=document.getElementById('f-type').value;P.world=document.getElementById('f-world').value;P.growth=document.getElementById('f-growth').value;
+  P.type=tSel.value;P.world=wSel.value;P.growth=gSel.value;
   bootScreen();
  };
 }
@@ -284,7 +290,7 @@ function lockScreen(){
 }
 function beat(){
  var b=WD()[STATE.i];setStatus(b.clock);
- var isStretch=b.stretchFor&&b.stretchFor.indexOf(P.growth)>=0;
+ var isStretch=b.stretchFor&&b.stretchFor===CAMP[P.growth];
  scrn.innerHTML='<div class="notif" id="notif"><div class="nfrom"><span>'+b.from+'</span><span>\uD83D\uDD14</span></div><div class="nbody">'+b.notif+'</div><div class="nopen">\u2192 tap to open</div></div>';
  document.getElementById('notif').onclick=function(){openBeat(b,isStretch);};
 }
@@ -323,27 +329,16 @@ function debrief(){
  var sk=Object.entries(STATE.skills).sort(function(a,b){return b[1]-a[1];});
  var skHtml=sk.length?sk.slice(0,4).map(function(x){return '<div class="debskill"><span>'+x[0]+'</span><span class="ct">x'+x[1]+'</span></div>';}).join(''):'<div class="debnote">You didn\u2019t lean on your Power Skills much today. Worth a replay.</div>';
  var gnote;
- if(STATE.maxBeat>=3)gnote='You walked straight into your stretch zone, <b>'+GROWTH[P.growth]+'</b>, and nailed it. That is the muscle growing in real time.';
- else if(STATE.maxBeat===2)gnote='Your stretch moment, <b>'+GROWTH[P.growth]+'</b>, was a solid, careful play. Keep training it.';
- else gnote='Your stretch zone, <b>'+GROWTH[P.growth]+'</b>, showed today. That is not failure, that is the exact muscle to train. You already knew where it was.';
+ if(STATE.maxBeat>=3)gnote='You walked straight into your stretch zone, <b>'+P.growth+'</b>, and nailed it. That is the muscle growing in real time.';
+ else if(STATE.maxBeat===2)gnote='Your stretch moment, <b>'+P.growth+'</b>, was a solid, careful play. Keep training it.';
+ else gnote='Your stretch zone, <b>'+P.growth+'</b>, showed today. That is not failure, that is the exact muscle to train. You already knew where it was.';
  scrn.innerHTML='<div class="deb"><div class="debkick">18:00 \u00B7 day complete</div><div class="debtier">'+tier+'</div><div class="debsub">'+sub+'</div>'+
   '<div class="debbox"><div class="l">\u26A1 power skills you fired today</div>'+skHtml+'</div>'+
   '<div class="debbox"><div class="l">\u25B3 your stretch moment</div><div class="debnote">'+gnote+'</div></div>'+
   '<div class="debbox"><div class="l">\u25C7 the you that showed up</div><div class="debnote">A 24-year-old <b style="color:var(--cyan)">'+P.type+'</b>, running a real day in <b style="color:var(--cyan)">'+P.world+'</b>. Ten years from a Grade 9 classroom, closer than it feels.</div></div>'+
   '<div class="debbox" style="border-color:rgba(255,52,87,.3)"><div class="l" style="color:var(--crimson)">\u27F6 next station</div><div class="debnote">You\u2019ve lived a day in 2035. In <b style="color:var(--crimson)">The Pitch</b>, you stop reacting and start building: your own idea, in your own world.</div></div>'+
-  '<button class="cta" id="finish" style="margin-top:6px">\u2713 FINISH</button>'+
-  '<button class="cta cyan" id="again" style="margin-top:10px">\u21BB LIVE ANOTHER DAY</button></div>';
+  '<button class="cta cyan" id="again" style="margin-top:6px">\u21BB LIVE ANOTHER DAY</button></div>';
  document.getElementById('again').onclick=profileScreen;
- document.getElementById('finish').onclick=finishScreen;
-}
-function finishScreen(){
- setStatus('18:00','DONE');
- scrn.innerHTML='<div class="deb" style="flex:1;display:flex;flex-direction:column;justify-content:center">'+
-  '<div class="debkick">station 02 \u00B7 complete</div>'+
-  '<div class="debtier">That\u2019s a wrap.</div>'+
-  '<div class="debsub">You lived a day as your 2035 self. The skills you fired today are already in you, ten years early.</div>'+
-  '<div class="debbox" style="border-color:rgba(255,52,87,.3);text-align:left"><div class="l" style="color:var(--crimson)">\u27F6 what\u2019s next</div><div class="debnote">Head back to your facilitator for the next station: <b style="color:var(--crimson)">The Pitch</b>.</div></div>'+
-  '</div>';
 }
 function scramble(el,final){var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&\u25AE',f=0;var id=setInterval(function(){el.textContent=final.split('').map(function(c,i){return c===' '?' ':(i<f?c:ch[Math.floor(Math.random()*ch.length)]);}).join('');f++;if(f>final.length){clearInterval(id);el.textContent=final;}},40);}
 </script>
