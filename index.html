@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#07070d;--bg2:#0d0e18;--panel:#11131f;--panel2:#161929;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#eef1fb;--mute:#9aa0bd;--faint:#646a87;--crimson:#ff3457;--crimson-d:#c01f3c;--cyan:#34e6f0;--gold:#ffc24b;--green:#54e08b;--purple:#9b8cff;--r:14px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -58,6 +59,14 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
 .timertrack{flex:1;height:6px;background:#1c2030;border-radius:4px;overflow:hidden}
 .timerfill{height:100%;width:100%;background:var(--cyan);border-radius:4px;transition:width .1s linear}
 .timernum{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--cyan);min-width:30px;text-align:right}
+.bk{background:transparent;border:1px solid #2a3050;color:var(--mute);border-radius:9px;padding:11px 16px;font-family:'Chakra Petch',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;cursor:pointer}
+.bk:hover{border-color:var(--cyan);color:var(--cyan)}
+.bk.solo{margin-top:14px;width:100%}
+.navrow{display:flex;gap:10px;align-items:stretch;margin-top:4px}
+.navrow .cta{flex:1;margin:0;width:auto}
+.dlbtn{width:100%;margin-top:14px;padding:16px;border:none;border-radius:11px;cursor:pointer;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:#06222a;background:linear-gradient(100deg,var(--cyan),#17a7b0);animation:pulse 1.25s ease-in-out infinite}
+.dlbtn:hover{filter:brightness(1.08)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,230,240,.5)}50%{box-shadow:0 0 24px 6px rgba(52,230,240,.55)}}
 .btag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .stretchbadge{color:var(--gold);border:1px solid rgba(255,194,75,.4);padding:2px 8px;border-radius:20px;font-size:9.5px}
 .scene{font-size:15px;line-height:1.55;color:var(--ink);margin-bottom:18px}
@@ -105,95 +114,95 @@ var NUM='NUM',WORD='WORD';
 
 var WORLDDATA={
 'Entrepreneurship':[
- {time:15,clock:'06:12',from:'CO-FOUNDER · NOW',notif:'Big news. A national retail chain wants to meet TODAY about stocking us. Can you pull a pitch together by 2pm?? \uD83D\uDE2C',tag:'Decision 01 · first call of the day',
-  scene:'You\u2019re barely awake. This is the break you\u2019ve been chasing for two years, but it\u2019s in eight hours. <b>What do you fire back?</b>',
-  choices:[{t:'\u201cOn it. I\u2019ll have a draft by 10, we review at 11.\u201d',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Your co-founder exhales. \u201cThis is why we started this together.\u201d The day has a plan before 6:15am.'},
+ {time:15,clock:'06:12',from:'BUSINESS PARTNER · NOW',notif:'Big news. A big national chain of shops wants to meet TODAY about selling our product in their stores. Can you get a presentation ready by 2pm?? \uD83D\uDE2C',tag:'Decision 01 · first call of the day',
+  scene:'You\u2019re barely awake. This is the break you\u2019ve been chasing for two years, but the meeting is in eight hours. <b>What do you fire back?</b>',
+  choices:[{t:'\u201cOn it. I\u2019ll have a draft by 10, we review at 11.\u201d',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Your business partner exhales. \u201cThis is why we started this together.\u201d The day has a plan before 6:15am.'},
    {t:'\u201cLet\u2019s ask them to push a week so we do it properly.\u201d',skills:['Critical Thinking'],score:2,out:'Smart instinct, but they reply: \u201cThey\u2019re deciding this week. It\u2019s today or not at all.\u201d The clock starts anyway.'},
    {t:'\u201cidk if we\u2019re even ready for this\u201d',skills:['Tenacity'],score:1,out:'\u201cWe\u2019re readier than you think. I need you in this.\u201d You\u2019ve burned ten minutes on doubt. Coffee. Go.'}],timeout:2},
- {time:18,clock:'09:40',from:'YOUR DASHBOARD',notif:'Production capacity: 500 units/week. Retailer hinted they\u2019d want about 800.',tag:'Decision 02 · the numbers',stretchFor:NUM,
-  scene:'You can make 500 a week. They want 800. The gap is real and they\u2019ll ask. <b>How do you play the numbers in the pitch?</b>',
-  choices:[{t:'Offer 500 now, with a costed plan to reach 800 in three months.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'Honest and backed by a plan. Buyers trust a founder who knows their own limits and has a roadmap past them.'},
-   {t:'Promise 800 from day one to win the deal. Figure it out after.',skills:['Goal-Driven & Proactive'],score:1,out:'Impressive in the room, but you\u2019ve promised what you can\u2019t deliver. That bill comes due in month two.'},
+ {time:18,clock:'09:40',from:'YOUR DASHBOARD',notif:'Right now you can make 500 items a week. The shop hinted they\u2019d want about 800.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+  scene:'You can make 500 a week. They want 800. The gap is real and they\u2019ll ask about it. <b>How do you handle the numbers in the meeting?</b>',
+  choices:[{t:'Offer 500 now, with a costed plan to reach 800 in three months.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'Honest and backed by a plan. The shop trusts someone who knows their own limits and has a clear plan to grow past them.'},
+   {t:'Promise 800 from day one to win the deal. Figure it out after.',skills:['Goal-Driven & Proactive'],score:1,out:'Impressive in the room, but you\u2019ve promised what you can\u2019t deliver. That catches up with you by month two.'},
    {t:'Keep it vague. Don\u2019t mention the gap.',skills:[],score:1,out:'They notice the dodge. Vague numbers read as \u201cdoesn\u2019t know their business.\u201d Trust dips before you\u2019ve begun.'}],timeout:2},
- {time:18,clock:'11:05',from:'CO-FOUNDER · IN PERSON',notif:'\u201cWhy is the deck STILL not done? We don\u2019t have time for this.\u201d',tag:'Decision 03 · your co-founder snaps',
+ {time:18,clock:'11:05',from:'BUSINESS PARTNER · IN PERSON',notif:'\u201cWhy are the slides STILL not done? We don\u2019t have time for this.\u201d',tag:'Decision 03 · your business partner snaps',
   scene:'They\u2019re stressed and it just landed on you, unfairly. The meeting\u2019s in two hours. <b>What do you do?</b>',
-  choices:[{t:'Pause. \u201cHey, you good? This is a lot. Let\u2019s split it.\u201d',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'They drop their shoulders. \u201cSorry. I\u2019m scared we\u2019ll blow it.\u201d You split the deck and you\u2019re a team again, faster for it.'},
+  choices:[{t:'Pause. \u201cHey, you good? This is a lot. Let\u2019s split it.\u201d',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'They drop their shoulders. \u201cSorry. I\u2019m scared we\u2019ll blow it.\u201d You split the slides between you and you\u2019re a team again, faster for it.'},
    {t:'Snap back. You\u2019re stressed too. Keep working.',skills:[],score:1,out:'Now you\u2019re both rattled walking into the biggest meeting of your lives. The tension shows in the room.'},
-   {t:'Say nothing, take over the whole deck yourself.',skills:['Tenacity'],score:2,out:'It gets done, but you\u2019re carrying it alone and your co-founder feels sidelined. You can\u2019t scale a company solo.'}],timeout:1},
- {time:16,clock:'13:30',from:'THE MEETING',notif:'Buyer: \u201cWe already stock three brands like yours. Why you?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
-  scene:'Everyone\u2019s looking at you. This is the whole pitch in one question. <b>Your move?</b>',
-  choices:[{t:'Tell the origin story plus the one thing only you do differently.',skills:['Communicating with Impact','Innovative & Curious','Creative Agility'],score:3,out:'You make it personal and specific. The buyer leans in. You\u2019re no longer brand number four, you\u2019re a story they want to back.'},
-   {t:'Undercut the others on price.',skills:['Goal-Driven & Proactive'],score:1,out:'They nod, then ask the next cheapest brand to match you. You\u2019ve started a race to the bottom you can\u2019t win.'},
-   {t:'List all your product features, one by one.',skills:[],score:1,out:'Accurate, thorough, and forgettable. Features tell; stories sell. The room\u2019s attention drifts.'}],timeout:2},
- {time:12,clock:'13:58',from:'BUYER · DECIDING NOW',notif:'\u201cWe\u2019re interested. Trial order, but we need your answer on terms in the next two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
-  scene:'Big volume, but they pay you <b>90 days late</b>, three months of covering costs yourself. They\u2019re standing up to leave. <b>Final call.</b>',
-  choices:[{t:'Negotiate: yes to volume, but 60-day terms plus a deposit.',skills:['Goal-Driven & Proactive','Critical Thinking','Financial Literacy'],score:3,out:'They pause. \u201c60 days, 20% deposit. Deal.\u201d You protected your cash flow AND landed the order. That\u2019s a founder.'},
-   {t:'Accept exactly as offered. Lock it in.',skills:['Goal-Driven & Proactive'],score:2,out:'You\u2019ve got the deal, and three months of paying out before a cent comes in. Survivable, but it\u2019ll be tight.'},
-   {t:'Walk away. Too risky for now.',skills:['Critical Thinking'],score:2,out:'Disciplined. You live to fight another day, but you\u2019ll wonder for weeks what that deal could\u2019ve become.'}],timeout:1}
+   {t:'Say nothing, take over all the slides yourself.',skills:['Tenacity'],score:2,out:'It gets done, but you\u2019re carrying it alone and your business partner feels pushed aside. You can\u2019t grow a company on your own.'}],timeout:1},
+ {time:16,clock:'13:30',from:'THE MEETING',notif:'The person who decides what the shop sells asks: \u201cWe already sell three brands like yours. Why you?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+  scene:'Everyone\u2019s looking at you. This one question is the whole meeting. <b>Your move?</b>',
+  choices:[{t:'Tell the story of how you started, plus the one thing only you do differently.',skills:['Communicating with Impact','Innovative & Curious','Creative Agility'],score:3,out:'You make it personal and specific. They lean in. You\u2019re no longer brand number four, you\u2019re a story they want to back.'},
+   {t:'Undercut the others on price.',skills:['Goal-Driven & Proactive'],score:1,out:'They nod, then ask the next cheapest brand to match your price. Now it is just who can go cheapest, and you cannot win that.'},
+   {t:'List all your product features, one by one.',skills:[],score:1,out:'Accurate, thorough, and forgettable. A list of features does not stick, a story does. The room drifts.'}],timeout:2},
+ {time:12,clock:'13:58',from:'THE SHOP · DECIDING NOW',notif:'\u201cWe\u2019re interested. A small test order to start, but we need your answer on the deal in the next two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'A big order, but they pay you <b>90 days late</b>, three months of covering the costs yourself first. They\u2019re standing up to leave. <b>Final call.</b>',
+  choices:[{t:'Push back: yes to the big order, but they pay within 60 days and pay some up front.',skills:['Goal-Driven & Proactive','Critical Thinking','Financial Literacy'],score:3,out:'They pause. \u201c60 days, and 20% up front. Deal.\u201d You protected the money you run on AND landed the order. That\u2019s how you run a business.'},
+   {t:'Accept exactly as offered. Lock it in.',skills:['Goal-Driven & Proactive'],score:2,out:'You\u2019ve got the deal, and three months of paying out before a single cent comes back in. You\u2019ll survive, but it\u2019ll be tight.'},
+   {t:'Walk away. Too risky for now.',skills:['Critical Thinking'],score:2,out:'Smart and careful. You keep yourself safe to try again, but you\u2019ll wonder for weeks what that deal could\u2019ve become.'}],timeout:1}
 ],
 'AI & Robotics':[
- {time:15,clock:'06:12',from:'SYSTEM ALERT · NOW',notif:'The recommendation model we shipped is giving biased results to users in rural areas. Flagged overnight. People are noticing. \u26A0',tag:'Decision 01 · first call of the day',
-  scene:'A model you built is treating some users worse than others, right now, live. <b>What\u2019s your first move?</b>',
-  choices:[{t:'Pull it to safe-mode now. I lead the fix, updates every hour.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'You stop the harm first and communicate clearly. The team trusts a lead who acts before the headlines do.'},
-   {t:'Wait for more data before touching a live system.',skills:['Critical Thinking'],score:2,out:'Careful, but every hour it runs, real people get worse results. Caution has a cost here too.'},
-   {t:'It\u2019s probably a small edge case. Leave it.',skills:[],score:1,out:'By 9am it\u2019s a thread with 4,000 reposts. \u201cSmall edge case\u201d was a thousand real users.'}],timeout:2},
- {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Rural users are 8% of the training data but 30% of real users. That\u2019s the source of the bias.',tag:'Decision 02 · trace the cause',stretchFor:NUM,
-  scene:'The maths is clear: the model never learned enough about most of its actual users. <b>How do you fix it?</b>',
-  choices:[{t:'Rebalance the data and retest before redeploying, even if it takes two more days.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'You fix the cause, not the symptom. Slower today, trustworthy for years. That\u2019s real engineering.'},
-   {t:'Ship a quick patch now, fix the data later.',skills:['Goal-Driven & Proactive'],score:1,out:'The patch hides the bias without removing it. \u201cLater\u201d has a way of never coming.'},
-   {t:'Adjust the metric so it stops flagging.',skills:[],score:1,out:'You didn\u2019t fix the bias, you blinded yourself to it. The users still get hurt, quietly now.'}],timeout:2},
+ {time:15,clock:'06:12',from:'SYSTEM ALERT · NOW',notif:'The system we built and released is treating users in rural areas unfairly. It got flagged overnight. People are noticing. \u26A0',tag:'Decision 01 · first call of the day',
+  scene:'A system you built is treating some users worse than others, right now, live. <b>What\u2019s your first move?</b>',
+  choices:[{t:'Switch it to a safe, limited mode now. I lead the fix, with updates every hour.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'You stop the harm first and communicate clearly. The team trusts a lead who acts before the headlines do.'},
+   {t:'Wait for more data before touching a live system.',skills:['Critical Thinking'],score:2,out:'Careful, but every hour you wait, real people keep getting worse results. Waiting has a cost too.'},
+   {t:'It\u2019s probably just a rare case. Leave it.',skills:[],score:1,out:'By 9am it\u2019s a post with 4,000 reposts. That \u201crare case\u201d was a thousand real people.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'The information the system learned from was only 8% rural users, but they\u2019re 30% of the real users. That\u2019s why it\u2019s unfair.',tag:'Decision 02 · trace the cause',stretchFor:NUM,
+  scene:'The maths is clear: the system never learned enough about most of the people actually using it. <b>How do you fix it?</b>',
+  choices:[{t:'Fix the mix of information, test it properly, then turn it back on, even if that takes two more days.',skills:['Analytical Thinking','Critical Thinking'],score:3,out:'You fix the cause, not just the symptom. Slower today, trustworthy for years. That\u2019s real engineering.'},
+   {t:'Push out a quick fix now, sort out the information later.',skills:['Goal-Driven & Proactive'],score:1,out:'The quick fix hides the problem without removing it. \u201cLater\u201d has a way of never coming.'},
+   {t:'Change the alarm so it stops warning you.',skills:[],score:1,out:'You didn\u2019t fix the problem, you just stopped yourself seeing it. The users still get hurt, quietly now.'}],timeout:2},
  {time:18,clock:'11:05',from:'JUNIOR ENGINEER · DM',notif:'\u201cThe bug\u2026 it came from a shortcut I took to hit the deadline. I\u2019m so sorry.\u201d',tag:'Decision 03 · someone owns up',
   scene:'A junior on your team just admitted the mistake was theirs, and they\u2019re terrified. <b>How do you respond?</b>',
   choices:[{t:'\u201cThank you for owning it. Now let\u2019s fix it together, no blame.\u201d',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'You just taught your whole team that honesty is safe here. Next time, someone speaks up sooner.'},
-   {t:'Report them to management for the error.',skills:[],score:1,out:'You made an example of them. Now nobody on the team will ever admit a mistake again. Bugs go underground.'},
-   {t:'Fix it quietly yourself, say nothing.',skills:['Tenacity'],score:2,out:'Kind, but they learn nothing and you do everything. That doesn\u2019t scale, and neither do they.'}],timeout:2},
+   {t:'Report them to management for the error.',skills:[],score:1,out:'You made an example of them. Now nobody on the team will ever admit a mistake again. The problems just get hidden.'},
+   {t:'Fix it quietly yourself, say nothing.',skills:['Tenacity'],score:2,out:'Kind, but they learn nothing and you do everything. That won\u2019t hold as things grow, and neither will they.'}],timeout:2},
  {time:16,clock:'13:30',from:'PRESS BRIEFING',notif:'Journalist, live: \u201cCan we even trust AI that you build?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
   scene:'Cameras on you. This one answer becomes the headline. <b>Your move?</b>',
   choices:[{t:'Be honest: what went wrong, what you fixed, how you\u2019ll prevent it.',skills:['Communicating with Impact','Innovative & Curious'],score:3,out:'Owning it plainly earns more trust than any promise. \u201cThis is how they handle mistakes\u201d becomes the story.'},
    {t:'Get defensive: \u201cThe system is fine, this is overblown.\u201d',skills:[],score:1,out:'Defensiveness reads as guilt. The clip of you dismissing real harm runs all evening.'},
    {t:'Bury it in technical jargon nobody follows.',skills:[],score:1,out:'You dodged the question and everyone could tell. Confusion is not the same as confidence.'}],timeout:2},
- {time:12,clock:'13:58',from:'LEADERSHIP · DECIDING NOW',notif:'\u201cWe want to launch the bigger model next week to beat the competitor. Your call in two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
-  scene:'It hasn\u2019t passed safety testing. Leadership wants to win the race. They\u2019re waiting. <b>Final call.</b>',
-  choices:[{t:'Push back: \u201cWe launch when it\u2019s tested, not before. My name\u2019s on that.\u201d',skills:['Goal-Driven & Proactive','Critical Thinking','Tenacity'],score:3,out:'You held the line on safety under real pressure. That\u2019s the difference between a coder and a leader.'},
-   {t:'Go along with the rushed launch to win the race.',skills:['Goal-Driven & Proactive'],score:2,out:'You beat the competitor by four days, and inherit whatever the untested model does to real users.'},
-   {t:'Stay quiet. Not your call.',skills:[],score:1,out:'You had the knowledge and the room, and said nothing. Silence is also a decision.'}],timeout:1}
+ {time:12,clock:'13:58',from:'LEADERSHIP · DECIDING NOW',notif:'\u201cWe want to release the bigger system next week to beat the competition. Your call in two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  scene:'It hasn\u2019t passed its safety tests yet. The bosses want to win the race. They\u2019re waiting. <b>Final call.</b>',
+  choices:[{t:'Push back: \u201cWe release it when it\u2019s tested, not before. My name\u2019s on that.\u201d',skills:['Goal-Driven & Proactive','Critical Thinking','Tenacity'],score:3,out:'You held the line on safety under real pressure. That\u2019s the difference between a coder and a leader.'},
+   {t:'Go along with the rushed launch to win the race.',skills:['Goal-Driven & Proactive'],score:2,out:'You beat the competition by four days, and you own whatever the untested system does to real people.'},
+   {t:'Stay quiet. Not your call.',skills:[],score:1,out:'You knew the risk and you were in the room, and you said nothing. Silence is also a decision.'}],timeout:1}
 ],
 'Healthcare':[
  {time:15,clock:'06:12',from:'SYSTEM ALERT · NOW',notif:'Our clinic app crashed overnight. 12 clinics can\u2019t pull patient records this morning. Queues are forming.',tag:'Decision 01 · first call of the day',
   scene:'Across the Western Cape, nurses are stuck and patients are waiting. <b>What\u2019s your first move?</b>',
-  choices:[{t:'Switch clinics to the backup system now. I coordinate the fix.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Patients keep moving while you fix the root cause. In health tech, downtime is measured in people, not minutes.'},
-   {t:'Wait for the dev team to wake up and assess.',skills:['Critical Thinking'],score:2,out:'An hour of waiting is an hour of full waiting rooms and frustrated nurses. The delay lands on patients.'},
+  choices:[{t:'Switch clinics to the backup system now. I coordinate the fix.',skills:['Goal-Driven & Proactive','Communicating with Impact'],score:3,out:'Patients keep moving while you fix the real cause. When a health system goes down, the cost is counted in people, not minutes.'},
+   {t:'Wait for the tech team to wake up and look into it.',skills:['Critical Thinking'],score:2,out:'An hour of waiting is an hour of full waiting rooms and frustrated nurses. The delay lands on patients.'},
    {t:'Tell clinics to manage on paper. Not urgent.',skills:[],score:1,out:'Paper means lost histories and missed allergies. \u201cNot urgent\u201d is easy to say from a desk.'}],timeout:2},
- {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'The crash hit because one server runs all 12 clinics, to save cost. Two backup servers would cost R40k a year.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'The crash happened because one computer runs all 12 clinics, to save money. Two backup computers would cost R40k a year.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'Cheap today nearly broke the whole network. <b>What do you do with the budget?</b>',
-  choices:[{t:'Make the case: cost of two servers vs the cost of clinics going dark.',skills:['Analytical Thinking','Critical Thinking','Financial Literacy'],score:3,out:'You weigh R40k against a day of 12 clinics offline. Framed like that, it isn\u2019t even close. Approved.'},
-   {t:'Keep one server to stay cheap. Risk it again.',skills:[],score:1,out:'You saved R40k and gambled patient care on a single point of failure. Next crash, same chaos.'},
-   {t:'Add servers immediately without checking the budget.',skills:['Goal-Driven & Proactive'],score:2,out:'Right instinct, no plan. You over-spend elsewhere and finance pushes back hard next quarter.'}],timeout:2},
+  choices:[{t:'Make the case: the cost of two backup computers versus the cost of 12 clinics going down.',skills:['Analytical Thinking','Critical Thinking','Financial Literacy'],score:3,out:'You weigh R40k against a day of 12 clinics offline. Framed like that, it isn\u2019t even close. Approved.'},
+   {t:'Keep just the one computer to stay cheap. Risk it happening again.',skills:[],score:1,out:'You saved R40k and gambled patient care on one computer with no backup. Next crash, same chaos.'},
+   {t:'Add the backup computers right away without checking what you can afford.',skills:['Goal-Driven & Proactive'],score:2,out:'Right instinct, no plan. You overspend elsewhere and the money runs short a few months later.'}],timeout:2},
  {time:18,clock:'11:05',from:'CLINIC NURSE · MESSAGE',notif:'\u201cYour app makes my job harder, not easier. Nobody asked us what we actually need.\u201d',tag:'Decision 03 · the frontline pushes back',
   scene:'The person using your tool every day is telling you it\u2019s failing her. <b>How do you respond?</b>',
-  choices:[{t:'\u201cYou\u2019re right. Let me shadow your shift and redesign around how you really work.\u201d',skills:['Collaborative Relationships','Communicating with Impact','Innovative & Curious'],score:3,out:'You go to the frontline instead of defending the desk. The best health tech is built next to the people using it.'},
+  choices:[{t:'\u201cYou\u2019re right. Let me shadow your shift and redesign around how you really work.\u201d',skills:['Collaborative Relationships','Communicating with Impact','Innovative & Curious'],score:3,out:'You go to where the work actually happens instead of defending it from your desk. The best tools are built next to the people using them.'},
    {t:'\u201cThe app\u2019s fine, you just need more training.\u201d',skills:[],score:1,out:'You told an expert she\u2019s the problem. She stops giving feedback, and the app stops improving.'},
    {t:'\u201cI hear you, I\u2019ll look into it,\u201d then get pulled into other work.',skills:['Communicating with Impact'],score:2,out:'A soft promise with no follow-up. She\u2019s heard that before. Trust erodes one ignored message at a time.'}],timeout:2},
  {time:16,clock:'13:30',from:'COMMUNITY MEETING',notif:'A parent asks: \u201cWhy should we trust an app with my child\u2019s health data?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
   scene:'A hall full of worried parents is waiting on your answer. <b>Your move?</b>',
   choices:[{t:'Explain in plain language how data is protected and who can see it, then invite questions.',skills:['Communicating with Impact','Collaborative Relationships'],score:3,out:'Clear, honest, and open to challenge. Parents don\u2019t need perfect, they need someone who\u2019ll look them in the eye.'},
    {t:'Reassure vaguely: \u201cIt\u2019s totally safe, don\u2019t worry.\u201d',skills:[],score:1,out:'\u201cDon\u2019t worry\u201d makes people worry more. Vague comfort sounds like you\u2019re hiding something.'},
-   {t:'Read the privacy policy out, word for word.',skills:[],score:1,out:'Technically complete, humanly useless. Eyes glaze. Trust isn\u2019t built in legalese.'}],timeout:1},
- {time:12,clock:'13:58',from:'FUNDER · DECIDING NOW',notif:'\u201cWe\u2019ll fund a fast expansion, if you let us sell anonymised patient data to advertisers. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+   {t:'Read the privacy policy out, word for word.',skills:[],score:1,out:'Technically complete, but useless to a real person. Eyes glaze over. You don\u2019t build trust by reading rules aloud.'}],timeout:1},
+ {time:12,clock:'13:58',from:'FUNDER · DECIDING NOW',notif:'\u201cWe\u2019ll pay for you to grow fast, if you let us sell patient data, with the names removed, to advertisers. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
   scene:'The money would reach more clinics. The condition crosses a line. They\u2019re waiting. <b>Final call.</b>',
   choices:[{t:'Decline that condition. Propose expanding slower, without selling data.',skills:['Critical Thinking','Tenacity','Communicating with Impact'],score:3,out:'You protected the trust your whole system runs on. Grow slower, stay worth trusting. That\u2019s the deal that lasts.'},
-   {t:'Take the money. It\u2019s anonymised anyway.',skills:['Goal-Driven & Proactive'],score:1,out:'\u201cAnonymised\u201d data gets re-identified all the time. You traded patient trust for speed, and that doesn\u2019t come back.'},
-   {t:'Walk away from the funder entirely.',skills:['Critical Thinking'],score:2,out:'Principled, but now you\u2019ve no money to expand at all. Sometimes there was a third option you didn\u2019t reach for.'}],timeout:1}
+   {t:'Take the money. The names are removed anyway.',skills:['Goal-Driven & Proactive'],score:1,out:'Even with the names removed, people can often work out who the data belongs to. You traded patient trust for speed, and that doesn\u2019t come back.'},
+   {t:'Walk away from the funder entirely.',skills:['Critical Thinking'],score:2,out:'You stuck to your values, but now you\u2019ve no money to grow at all. Sometimes there\u2019s a third option you didn\u2019t reach for.'}],timeout:1}
 ],
 'Green Economy':[
- {time:15,clock:'06:12',from:'SITE MANAGER · NOW',notif:'Storm knocked out a third of the solar array overnight. The township we power has no electricity. People are calling.',tag:'Decision 01 · first call of the day',
+ {time:15,clock:'06:12',from:'SITE MANAGER · NOW',notif:'A storm knocked out a third of the solar panels overnight. The township you power has no electricity. People are calling.',tag:'Decision 01 · first call of the day',
   scene:'Thousands of people just lost power, and they\u2019re counting on you. <b>What\u2019s your first move?</b>',
-  choices:[{t:'Reroute power from the grid battery now. I\u2019m heading to site.',skills:['Goal-Driven & Proactive','Communicating with Impact','Tenacity'],score:3,out:'Lights come back within the hour while you head to the real fix. People remember who showed up in the dark.'},
+  choices:[{t:'Switch over to the backup battery now. I\u2019m heading to the site.',skills:['Goal-Driven & Proactive','Communicating with Impact','Tenacity'],score:3,out:'Lights come back within the hour while you head to the real fix. People remember who showed up in the dark.'},
    {t:'Wait for daylight to assess the panels properly.',skills:['Critical Thinking'],score:2,out:'Sensible for the panels, hard on the families sitting in the dark for hours longer than they need to.'},
-   {t:'Log it for the weekly report.',skills:[],score:1,out:'A whole community without power is not a line item. By the time the report\u2019s read, trust is gone.'}],timeout:2},
- {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Repairing all panels: R600k. Or R250k on storm-proof mounts that stop this happening again.',tag:'Decision 02 · the numbers',stretchFor:NUM,
+   {t:'Log it for the weekly report.',skills:[],score:1,out:'A whole community without power is not just a note in a report. By the time anyone reads it, trust is gone.'}],timeout:2},
+ {time:18,clock:'09:40',from:'YOUR DATA CONSOLE',notif:'Fixing all the panels: R600k. Or R250k on storm-proof frames that stop this happening again.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'You can fix what broke, or fix why it broke. <b>How do you spend?</b>',
-  choices:[{t:'Invest in storm-proof mounts and phase repairs. Fix the cause.',skills:['Analytical Thinking','Critical Thinking','Innovative & Curious'],score:3,out:'Cheaper and smarter: you spend less and the next storm does nothing. That\u2019s systems thinking, not just repair.'},
+  choices:[{t:'Spend on storm-proof frames and fix the panels bit by bit. Fix the cause.',skills:['Analytical Thinking','Critical Thinking','Innovative & Curious'],score:3,out:'Cheaper and smarter: you spend less and the next storm does nothing. That\u2019s fixing the whole system, not just what broke.'},
    {t:'Just repair what broke. Cheapest right now.',skills:[],score:2,out:'Back online fast, but the next big storm knocks it all down again. You\u2019ll be having this exact morning soon.'},
    {t:'Spend on both at once, no plan.',skills:['Goal-Driven & Proactive'],score:1,out:'You blow the budget in one go. When the next problem hits, there\u2019s nothing left to fix it with.'}],timeout:1},
  {time:18,clock:'11:05',from:'COMMUNITY MEMBER',notif:'\u201cYour project takes our land and our jobs and gives us nothing back.\u201d',tag:'Decision 03 · the community pushes back',
@@ -201,26 +210,26 @@ var WORLDDATA={
   choices:[{t:'Sit down, listen properly, and build a local hiring and training plan together.',skills:['Collaborative Relationships','Communicating with Impact'],score:3,out:'You turn an opponent into a partner. A green project that isn\u2019t community-owned doesn\u2019t last in the community.'},
    {t:'\u201cWe give you clean power. Isn\u2019t that enough?\u201d',skills:[],score:1,out:'You just told people their concerns don\u2019t count. Resentment grows, and so does resistance to the project.'},
    {t:'Offer a quick once-off donation and move on.',skills:['Goal-Driven & Proactive'],score:2,out:'Money without a relationship buys quiet for a week. The real issue, being left out, stays.'}],timeout:2},
- {time:16,clock:'13:30',from:'CITY FUNDING PITCH',notif:'Official: \u201cWhy fund you over a coal plant that creates more jobs right now?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
+ {time:16,clock:'13:30',from:'CITY FUNDING MEETING',notif:'Official: \u201cWhy fund you over a coal plant that creates more jobs right now?\u201d',tag:'Decision 04 · the room goes quiet',stretchFor:WORD,
   scene:'A hard, fair question with money on the line. <b>Your move?</b>',
-  choices:[{t:'Tell the story of the township you power, plus one clear number on long-term jobs and health.',skills:['Communicating with Impact','Critical Thinking','Innovative & Curious'],score:3,out:'A real face plus a real figure beats an abstract argument. The official can picture who they\u2019d be funding.'},
-   {t:'Attack coal angrily.',skills:[],score:1,out:'Heat without light. You come across as an activist, not a leader they can hand a budget to.'},
-   {t:'Recite the technical specs of your panels.',skills:[],score:1,out:'Specs don\u2019t move people. The official needed a reason to care, and you gave them a datasheet.'}],timeout:2},
- {time:12,clock:'13:58',from:'COMPANY · DECIDING NOW',notif:'\u201cWe\u2019ll fund your expansion, if you help make our image look green in your marketing. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
+  choices:[{t:'Tell the story of the township you power, plus one clear number on long-term jobs and health.',skills:['Communicating with Impact','Critical Thinking','Innovative & Curious'],score:3,out:'A real face and a real number beat a general argument. The official can picture who they\u2019d be funding.'},
+   {t:'Attack coal angrily.',skills:[],score:1,out:'Lots of anger, no real point made. You come across as an activist, not someone they can hand money to.'},
+   {t:'Reel off the technical details of your panels.',skills:[],score:1,out:'Technical details don\u2019t move people. The official needed a reason to care, and you gave them a page of numbers.'}],timeout:2},
+ {time:12,clock:'13:58',from:'COMPANY · DECIDING NOW',notif:'\u201cWe\u2019ll pay for you to grow, if you help make our company look green in your adverts. Two minutes.\u201d',tag:'Decision 05 · two minutes on the clock',
   scene:'They pollute heavily. They want your good name to cover it. The money is real. <b>Final call.</b>',
-  choices:[{t:'Refuse the greenwashing. Propose a genuine clean-up partnership or none.',skills:['Critical Thinking','Tenacity'],score:3,out:'You kept your credibility, the one thing a green project can\u2019t buy back once it\u2019s sold. Hard call, right call.'},
-   {t:'Take the deal. You need the money to grow.',skills:['Goal-Driven & Proactive'],score:1,out:'You scale fast, on a lie. When it comes out, and it will, your whole mission looks like a front.'},
-   {t:'Walk away.',skills:['Critical Thinking'],score:2,out:'Clean hands, empty pockets. Principled, but you didn\u2019t test whether there was a version that worked.'}],timeout:1}
+  choices:[{t:'Refuse to help fake their green image. Offer a real clean-up partnership instead, or nothing.',skills:['Critical Thinking','Tenacity'],score:3,out:'You kept people\u2019s trust, the one thing a green project can\u2019t buy back once it\u2019s lost. Hard call, right call.'},
+   {t:'Take the deal. You need the money to grow.',skills:['Goal-Driven & Proactive'],score:1,out:'You grow fast, on a lie. When it comes out, and it will, your whole mission looks fake.'},
+   {t:'Walk away.',skills:['Critical Thinking'],score:2,out:'Clean hands, empty pockets. You stuck to your values, but you didn\u2019t test whether there was a version that worked.'}],timeout:1}
 ],
 'Social Change':[
  {time:15,clock:'06:12',from:'COMMUNITY PARTNER · NOW',notif:'The youth centre we fund is being shut by the landlord. They have until end of day. 200 kids use it.',tag:'Decision 01 · first call of the day',
   scene:'Two hundred kids could lose their safe place after school, today. <b>What\u2019s your first move?</b>',
   choices:[{t:'\u201cI\u2019m on it. Calling the landlord and rallying support now.\u201d',skills:['Goal-Driven & Proactive','Communicating with Impact','Tenacity'],score:3,out:'You move while there\u2019s still a day to move in. In a crisis, speed and a calm voice are half the battle.'},
    {t:'\u201cLet\u2019s schedule a meeting next week to discuss options.\u201d',skills:[],score:1,out:'\u201cNext week\u201d the doors are already locked. Some problems don\u2019t wait for your calendar.'},
-   {t:'Start looking for another building. Let this one go.',skills:['Critical Thinking'],score:2,out:'Pragmatic, but you gave up the fight before trying. The kids lose the place they know while you search.'}],timeout:2},
+   {t:'Start looking for another building. Let this one go.',skills:['Critical Thinking'],score:2,out:'Sensible, but you gave up the fight before trying. The kids lose the place they know while you search.'}],timeout:2},
  {time:18,clock:'09:40',from:'YOUR BUDGET SHEET',notif:'Keeping the centre open costs R30k a month. Your budget can cover it for 4 months, not forever.',tag:'Decision 02 · the numbers',stretchFor:NUM,
   scene:'You can buy time, but not unlimited time. <b>How do you handle the money?</b>',
-  choices:[{t:'Cover 4 months now, and use them to build long-term funding.',skills:['Analytical Thinking','Critical Thinking','Goal-Driven & Proactive'],score:3,out:'You buy runway and a plan to use it. That\u2019s how short-term rescue becomes a long-term save.'},
+  choices:[{t:'Cover 4 months now, and use them to build long-term funding.',skills:['Analytical Thinking','Critical Thinking','Goal-Driven & Proactive'],score:3,out:'You buy time and a plan to use it. That\u2019s how a short-term rescue becomes a long-term save.'},
    {t:'Commit forever and hope the money turns up.',skills:[],score:1,out:'You promised what you can\u2019t fund. In month five there\u2019s no money and a broken promise to 200 kids.'},
    {t:'Don\u2019t commit. Too risky.',skills:['Critical Thinking'],score:2,out:'Safe for the budget, hard on the kids. Four months could have changed everything, and you let it pass.'}],timeout:2},
  {time:18,clock:'11:05',from:'TWO STAFF MEMBERS',notif:'Two of your team are clashing badly, and it\u2019s splitting everyone during the crisis.',tag:'Decision 03 · the team fractures',
@@ -243,6 +252,11 @@ var WORLDDATA={
 
 var P={name:'',type:'',world:'',growth:''};
 var STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};
+var HIST=[];
+function snap(){return {i:STATE.i,score:STATE.score,maxBeat:STATE.maxBeat,skills:Object.assign({},STATE.skills),log:STATE.log.slice()};}
+function goBack(){if(!HIST.length)return;var s=HIST.pop();STATE.i=s.i;STATE.score=s.score;STATE.maxBeat=s.maxBeat;STATE.skills=s.skills;STATE.log=s.log;var b=WD()[STATE.i];setStatus(b.clock);openBeat(b,b.stretchFor&&b.stretchFor===CAMP[P.growth]);}
+function backBtn(cls){return HIST.length?'<button class="bk'+(cls?' '+cls:'')+'" id="back">\u25C2 BACK</button>':'';}
+function wireBack(){var bk=document.getElementById('back');if(bk)bk.onclick=goBack;}
 var scrn=document.getElementById('scrn');var timerId=null;
 function WD(){return WORLDDATA[P.world];}
 function setStatus(t,w){document.getElementById('sbtime').textContent=t;if(w)document.getElementById('sbworld').textContent=w;}
@@ -286,7 +300,7 @@ function bootScreen(){
 function lockScreen(){
  setStatus('06:12',P.world.split(' ')[0].toUpperCase());
  scrn.innerHTML='<div class="lock" id="lock"><div class="lockdate">Mon 14 Oct 2035</div><div class="locktime">06:12</div><div class="lockwho">'+P.name+' \u00B7 '+WORLDS[P.world].role+'</div><div class="lockhint">\u2191 tap to wake</div></div>';
- document.getElementById('lock').onclick=function(){STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};beat();};
+ document.getElementById('lock').onclick=function(){STATE={i:0,score:0,maxBeat:0,skills:{},log:[]};HIST=[];beat();};
 }
 function beat(){
  var b=WD()[STATE.i];setStatus(b.clock);
@@ -296,15 +310,13 @@ function beat(){
 }
 function openBeat(b,isStretch){
  var ch='';b.choices.forEach(function(c,idx){ch+='<button class="choice" data-i="'+idx+'">'+c.t+'</button>';});
- scrn.innerHTML='<div class="beatwrap"><div class="timerrow"><div class="timertrack"><div class="timerfill" id="tf"></div></div><div class="timernum" id="tn">'+b.time+'</div></div>'+
-  '<div class="btag">'+b.tag+(isStretch?'<span class="stretchbadge">\u25B3 YOUR STRETCH</span>':'')+'</div><div class="scene">'+b.scene+'</div>'+ch+'</div>';
- var rem=b.time*10,tot=rem,tf=document.getElementById('tf'),tn=document.getElementById('tn');
- timerId=setInterval(function(){rem--;tf.style.width=(rem/tot*100)+'%';tn.textContent=Math.ceil(rem/10);
-  if(rem/tot<.34){tf.style.background='var(--crimson)';tn.style.color='var(--crimson)';}
-  if(rem<=0){clearInterval(timerId);resolve(b,b.timeout,true,isStretch);}},100);
- document.querySelectorAll('.choice').forEach(function(btn){btn.onclick=function(){clearInterval(timerId);resolve(b,+btn.dataset.i,false,isStretch);};});
+ scrn.innerHTML='<div class="beatwrap">'+
+  '<div class="btag">'+b.tag+(isStretch?'<span class="stretchbadge">\u25B3 YOUR STRETCH</span>':'')+'</div><div class="scene">'+b.scene+'</div>'+ch+backBtn('solo')+'</div>';
+ document.querySelectorAll('.choice').forEach(function(btn){btn.onclick=function(){resolve(b,+btn.dataset.i,false,isStretch);};});
+ wireBack();
 }
 function resolve(b,idx,timedOut,isStretch){
+ HIST.push(snap());
  var c=b.choices[idx];STATE.score+=c.score;if(isStretch)STATE.maxBeat=c.score;
  var sig=TYPES[P.type],instinct=c.skills.indexOf(sig)>=0;if(instinct)STATE.score+=1;
  c.skills.forEach(function(s){STATE.skills[s]=(STATE.skills[s]||0)+1;});
@@ -316,8 +328,9 @@ function resolve(b,idx,timedOut,isStretch){
   '<div class="ohead">You chose</div><div class="opick">'+c.t+'</div><div class="oout">'+c.out+'</div>'+
   (chips?'<div class="skillchips">'+chips+'</div>':'<div class="oout" style="color:var(--faint)">No Power Skill fired on that one.</div>')+
   (instinct?'<div class="instinct">\u26A1 INSTINCT: that\u2019s pure '+P.type+'. Bonus earned.</div>':'')+
-  '<button class="cta '+(last?'':'cyan')+'" id="cont">'+(last?'SEE HOW THE DAY WENT \u25B8':'CONTINUE \u25B8')+'</button></div>';
+  '<div class="navrow">'+backBtn()+'<button class="cta '+(last?'':'cyan')+'" id="cont">'+(last?'SEE HOW THE DAY WENT \u25B8':'CONTINUE \u25B8')+'</button></div></div>';
  document.getElementById('cont').onclick=function(){if(last){debrief();}else{STATE.i++;beat();}};
+ wireBack();
 }
 function debrief(){
  setStatus('18:00','HOME');
@@ -332,13 +345,42 @@ function debrief(){
  if(STATE.maxBeat>=3)gnote='You walked straight into your stretch zone, <b>'+P.growth+'</b>, and nailed it. That is the muscle growing in real time.';
  else if(STATE.maxBeat===2)gnote='Your stretch moment, <b>'+P.growth+'</b>, was a solid, careful play. Keep training it.';
  else gnote='Your stretch zone, <b>'+P.growth+'</b>, showed today. That is not failure, that is the exact muscle to train. You already knew where it was.';
+ __DEB={tier:tier,sub:sub,gnote:gnote.replace(/<[^>]+>/g,''),sk:sk,score:STATE.score,max:max};
  scrn.innerHTML='<div class="deb"><div class="debkick">18:00 \u00B7 day complete</div><div class="debtier">'+tier+'</div><div class="debsub">'+sub+'</div>'+
   '<div class="debbox"><div class="l">\u26A1 power skills you fired today</div>'+skHtml+'</div>'+
   '<div class="debbox"><div class="l">\u25B3 your stretch moment</div><div class="debnote">'+gnote+'</div></div>'+
   '<div class="debbox"><div class="l">\u25C7 the you that showed up</div><div class="debnote">A 24-year-old <b style="color:var(--cyan)">'+P.type+'</b>, running a real day in <b style="color:var(--cyan)">'+P.world+'</b>. Ten years from a Grade 9 classroom, closer than it feels.</div></div>'+
-  '<div class="debbox" style="border-color:rgba(255,52,87,.3)"><div class="l" style="color:var(--crimson)">\u27F6 next station</div><div class="debnote">You\u2019ve lived a day in 2035. In <b style="color:var(--crimson)">The Pitch</b>, you stop reacting and start building: your own idea, in your own world.</div></div>'+
-  '<button class="cta cyan" id="again" style="margin-top:6px">\u21BB LIVE ANOTHER DAY</button></div>';
+  '<div class="debbox" style="border-color:rgba(255,52,87,.3)"><div class="l" style="color:var(--crimson)">\u27F6 next station</div><div class="debnote">You\u2019ve lived a day in 2035. In <b style="color:var(--crimson)">The Unlock</b>, you stop reacting and start building: your own idea, in your own world. It is all online, in your own time.</div></div>'+
+  '<button class="dlbtn" id="dl">\u2B07 DOWNLOAD MY DAY (PDF)</button>'+
+  '<button class="cta cyan" id="again" style="margin-top:12px">\u21BB LIVE ANOTHER DAY</button></div>';
+ document.getElementById('dl').onclick=downloadDay;
  document.getElementById('again').onclick=profileScreen;
+}
+var __DEB={};
+function ensurePdf(cb){if(window.jspdf&&window.jspdf.jsPDF){cb();return;}var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=cb;s.onerror=function(){alert('Could not load the PDF tool. Check your connection and try again.');};document.head.appendChild(s);}
+function downloadDay(){ensurePdf(buildDayPdf);}
+function buildDayPdf(){
+ var doc=new window.jspdf.jsPDF({unit:'pt',format:'a4'});var W=595,H=842,x=50,y=72;
+ doc.setFillColor(13,14,24);doc.rect(0,0,W,H,'F');
+ doc.setFillColor(255,52,87);doc.rect(0,0,W,6,'F');
+ doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(52,230,240);
+ doc.text('A DAY IN 2035   \u00B7   THE EDGE',x,y);
+ y+=30;doc.setFontSize(23);doc.setTextColor(238,241,251);doc.text((P.name||'Your')+'\u2019s Day in 2035',x,y);
+ y+=18;doc.setDrawColor(60,66,90);doc.setLineWidth(.6);doc.line(x,y,W-50,y);y+=30;
+ function label(t){doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(154,160,189);doc.text(t.toUpperCase(),x,y);y+=16;}
+ function val(t,c,sz){doc.setFont('helvetica','bold');doc.setFontSize(sz||14);doc.setTextColor(c[0],c[1],c[2]);doc.text(t,x,y);y+=19;}
+ function para(t,c,sz){doc.setFont('helvetica','normal');doc.setFontSize(sz||11);doc.setTextColor(c[0],c[1],c[2]);var ls=doc.splitTextToSize(t,W-100);doc.text(ls,x,y);y+=ls.length*15;}
+ label('You ran the day as');val('The '+P.type+'  \u00B7  '+P.world,[52,230,240],15);y+=10;
+ label('How the day went');val(__DEB.tier,[238,241,251],15);para(__DEB.sub,[154,160,189]);y+=14;
+ label('Power skills you used today');
+ if(__DEB.sk.length){__DEB.sk.slice(0,6).forEach(function(p){val(p[0]+'   \u00D7'+p[1],[52,230,240],12.5);});}
+ else{para('You did not lean on your Power Skills much today. Worth another run.',[154,160,189]);}
+ y+=10;
+ label('Your stretch zone \u00B7 '+P.growth);para(__DEB.gnote,[255,194,75]);y+=14;
+ label('Score');val(__DEB.score+' / '+__DEB.max,[238,241,251],14);
+ doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(100,106,135);
+ doc.text('The Edge   \u00B7   Students for a Better Future',x,H-40);
+ doc.save('My-Day-In-2035.pdf');
 }
 function scramble(el,final){var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&\u25AE',f=0;var id=setInterval(function(){el.textContent=final.split('').map(function(c,i){return c===' '?' ':(i<f?c:ch[Math.floor(Math.random()*ch.length)]);}).join('');f++;if(f>final.length){clearInterval(id);el.textContent=final;}},40);}
 </script>
