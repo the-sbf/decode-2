@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#07070d;--bg2:#0d0e18;--panel:#11131f;--panel2:#161929;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#eef1fb;--mute:#9aa0bd;--faint:#646a87;--crimson:#ff3457;--crimson-d:#c01f3c;--cyan:#34e6f0;--gold:#ffc24b;--green:#54e08b;--purple:#9b8cff;--r:14px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -64,9 +63,6 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
 .bk.solo{margin-top:14px;width:100%}
 .navrow{display:flex;gap:10px;align-items:stretch;margin-top:4px}
 .navrow .cta{flex:1;margin:0;width:auto}
-.dlbtn{width:100%;margin-top:14px;padding:16px;border:none;border-radius:11px;cursor:pointer;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:#06222a;background:linear-gradient(100deg,var(--cyan),#17a7b0);animation:pulse 1.25s ease-in-out infinite}
-.dlbtn:hover{filter:brightness(1.08)}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,230,240,.5)}50%{box-shadow:0 0 24px 6px rgba(52,230,240,.55)}}
 .btag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .stretchbadge{color:var(--gold);border:1px solid rgba(255,194,75,.4);padding:2px 8px;border-radius:20px;font-size:9.5px}
 .scene{font-size:15px;line-height:1.55;color:var(--ink);margin-bottom:18px}
@@ -345,42 +341,13 @@ function debrief(){
  if(STATE.maxBeat>=3)gnote='You walked straight into your stretch zone, <b>'+P.growth+'</b>, and nailed it. That is the muscle growing in real time.';
  else if(STATE.maxBeat===2)gnote='Your stretch moment, <b>'+P.growth+'</b>, was a solid, careful play. Keep training it.';
  else gnote='Your stretch zone, <b>'+P.growth+'</b>, showed today. That is not failure, that is the exact muscle to train. You already knew where it was.';
- __DEB={tier:tier,sub:sub,gnote:gnote.replace(/<[^>]+>/g,''),sk:sk,score:STATE.score,max:max};
  scrn.innerHTML='<div class="deb"><div class="debkick">18:00 \u00B7 day complete</div><div class="debtier">'+tier+'</div><div class="debsub">'+sub+'</div>'+
   '<div class="debbox"><div class="l">\u26A1 power skills you fired today</div>'+skHtml+'</div>'+
   '<div class="debbox"><div class="l">\u25B3 your stretch moment</div><div class="debnote">'+gnote+'</div></div>'+
   '<div class="debbox"><div class="l">\u25C7 the you that showed up</div><div class="debnote">A 24-year-old <b style="color:var(--cyan)">'+P.type+'</b>, running a real day in <b style="color:var(--cyan)">'+P.world+'</b>. Ten years from a Grade 9 classroom, closer than it feels.</div></div>'+
   '<div class="debbox" style="border-color:rgba(255,52,87,.3)"><div class="l" style="color:var(--crimson)">\u27F6 next station</div><div class="debnote">You\u2019ve lived a day in 2035. In <b style="color:var(--crimson)">The Unlock</b>, you stop reacting and start building: your own idea, in your own world. It is all online, in your own time.</div></div>'+
-  '<button class="dlbtn" id="dl">\u2B07 DOWNLOAD MY DAY (PDF)</button>'+
   '<button class="cta cyan" id="again" style="margin-top:12px">\u21BB LIVE ANOTHER DAY</button></div>';
- document.getElementById('dl').onclick=downloadDay;
  document.getElementById('again').onclick=profileScreen;
-}
-var __DEB={};
-function ensurePdf(cb){if(window.jspdf&&window.jspdf.jsPDF){cb();return;}var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=cb;s.onerror=function(){alert('Could not load the PDF tool. Check your connection and try again.');};document.head.appendChild(s);}
-function downloadDay(){ensurePdf(buildDayPdf);}
-function buildDayPdf(){
- var doc=new window.jspdf.jsPDF({unit:'pt',format:'a4'});var W=595,H=842,x=50,y=72;
- doc.setFillColor(13,14,24);doc.rect(0,0,W,H,'F');
- doc.setFillColor(255,52,87);doc.rect(0,0,W,6,'F');
- doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(52,230,240);
- doc.text('A DAY IN 2035   \u00B7   THE EDGE',x,y);
- y+=30;doc.setFontSize(23);doc.setTextColor(238,241,251);doc.text((P.name||'Your')+'\u2019s Day in 2035',x,y);
- y+=18;doc.setDrawColor(60,66,90);doc.setLineWidth(.6);doc.line(x,y,W-50,y);y+=30;
- function label(t){doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(154,160,189);doc.text(t.toUpperCase(),x,y);y+=16;}
- function val(t,c,sz){doc.setFont('helvetica','bold');doc.setFontSize(sz||14);doc.setTextColor(c[0],c[1],c[2]);doc.text(t,x,y);y+=19;}
- function para(t,c,sz){doc.setFont('helvetica','normal');doc.setFontSize(sz||11);doc.setTextColor(c[0],c[1],c[2]);var ls=doc.splitTextToSize(t,W-100);doc.text(ls,x,y);y+=ls.length*15;}
- label('You ran the day as');val('The '+P.type+'  \u00B7  '+P.world,[52,230,240],15);y+=10;
- label('How the day went');val(__DEB.tier,[238,241,251],15);para(__DEB.sub,[154,160,189]);y+=14;
- label('Power skills you used today');
- if(__DEB.sk.length){__DEB.sk.slice(0,6).forEach(function(p){val(p[0]+'   \u00D7'+p[1],[52,230,240],12.5);});}
- else{para('You did not lean on your Power Skills much today. Worth another run.',[154,160,189]);}
- y+=10;
- label('Your stretch zone \u00B7 '+P.growth);para(__DEB.gnote,[255,194,75]);y+=14;
- label('Score');val(__DEB.score+' / '+__DEB.max,[238,241,251],14);
- doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(100,106,135);
- doc.text('The Edge   \u00B7   Students for a Better Future',x,H-40);
- doc.save('My-Day-In-2035.pdf');
 }
 function scramble(el,final){var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&\u25AE',f=0;var id=setInterval(function(){el.textContent=final.split('').map(function(c,i){return c===' '?' ':(i<f?c:ch[Math.floor(Math.random()*ch.length)]);}).join('');f++;if(f>final.length){clearInterval(id);el.textContent=final;}},40);}
 </script>
